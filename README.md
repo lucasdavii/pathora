@@ -59,8 +59,10 @@ git clone https://github.com/lucasdavii/pathora.git
   - cadastro.html
   - entrar.html
   - moduloia.html
-
+  - 
 ### Pedro Cauã
 - Desenvolvimento do mapa de risco
 - JavaScript do sistema de mapa de risco
 - Auxílio no CSS e identidade visual do projeto
+
+GitHub: [Pedro Cauã](https://github.com/pedrocaua898)
