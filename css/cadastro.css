@@ -1,0 +1,383 @@
+/*só o body msm*/
+
+* {
+    box-sizing: border-box; /* Faz padding e borda entrarem no tamanho real do elemento */
+}
+
+body {
+    margin: 0; /* Remove a margem padrão do navegador */
+    min-height: 100vh; /* Faz o body ocupar a altura inteira da tela */
+
+    font-family: Arial, Helvetica, sans-serif; /* Fonte padrão */
+    background: #0a1628; /* Fundo escuro principal do Pathora */
+    color: #fff; /* Texto padrão branco */
+}
+
+/* cadastro */
+
+.cadastro {
+    min-height: 100vh; /* Ocupa a tela inteira */
+    padding: 2rem; /* Espaço nas bordas da tela */
+
+    display: grid; /* Divide a página em duas colunas */
+    grid-template-columns: 1.1fr 0.9fr; /* Esquerda um pouco maior que a direita */
+
+    background:
+        radial-gradient(circle at top left, rgba(0, 201, 167, 0.22), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(30, 58, 95, 0.65), transparent 35%),
+        #0a1628; /* Fundo escuro com brilhos suaves */
+
+    position: relative; /* Permite usar detalhes decorativos */
+    overflow: hidden; /* Esconde partes que passarem da tela */
+}
+
+/* detalhes no background */
+
+.cadastro::before {
+    content: ""; /* Cria um elemento visual pelo CSS */
+    position: absolute;
+    inset: 0; /* Ocupa a tela toda */
+
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+
+    background-size: 80px 80px; /* Tamanho dos quadrados da grade */
+    opacity: 0.35; /* Deixa a grade discreta */
+}
+
+/* lado esquerdo */
+
+.cadastro-esquerda {
+    position: relative;
+    z-index: 1; /* Fica acima do fundo decorativo */
+
+    padding: 2.5rem;
+
+    display: flex;
+    flex-direction: column; /* Logo em cima, conteúdo no meio */
+    justify-content: flex-start;
+
+    background:
+        radial-gradient(circle at 35% 35%, rgba(0, 201, 167, 0.25), transparent 28%),
+        linear-gradient(135deg, #07101f, #112240 55%, #0a1628);
+
+    border: 1px solid #1e3a5f;
+    border-radius: 28px 0 0 28px;
+
+    overflow: hidden;
+}
+
+
+/* enfeitezin */
+
+.cadastro-esquerda::before {
+    content: "";
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    left: -180px;
+    top: 120px;
+
+    background:
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.75), transparent 12%),
+        radial-gradient(circle at 50% 50%, rgba(0, 201, 167, 0.32), transparent 38%),
+        linear-gradient(135deg, rgba(0, 201, 167, 0.45), rgba(17, 34, 64, 0.95));
+
+    border-radius: 45% 55% 60% 40% / 45% 35% 65% 55%; /* Deixa a forma irregular */
+    opacity: 0.8;
+}
+
+.cadastro-esquerda::after {
+    content: "";
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    right: -110px;
+    bottom: -100px;
+
+    border: 1px solid rgba(0, 201, 167, 0.28);
+    border-radius: 50%;
+
+    box-shadow: inset 0 0 80px rgba(0, 201, 167, 0.08);
+}
+
+/* logo */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+.logo span {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* conteúdo da esquerda */
+
+.cadastro-conteudo {
+    position: relative;
+    z-index: 1;
+
+    max-width: 620px;
+    margin-top: 5.5rem;
+}
+
+.badge-cadastro {
+    display: inline-block;
+
+    color: #00c9a7;
+    background: rgba(0, 201, 167, 0.08);
+    border: 1px solid #1e3a5f;
+
+    padding: 8px 14px;
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    margin-bottom: 1.5rem;
+}
+
+.cadastro-conteudo h1 {
+    margin: 0 0 1rem;
+
+    font-size: 3.2rem;
+    line-height: 1.1;
+}
+
+.cadastro-conteudo p {
+    color: #8892a4;
+    font-size: 1.05rem;
+    line-height: 1.7;
+
+    margin-bottom: 2rem;
+}
+
+/* cards de cadastro */
+
+.cards-cadastro {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.card-cadastro {
+    background: rgba(10, 22, 40, 0.72);
+    border: 1px solid #1e3a5f;
+    border-radius: 16px;
+
+    padding: 1.2rem;
+
+    backdrop-filter: blur(8px); /* Deixa o card com efeito de vidro */
+    transition: 0.3s ease;
+}
+
+.card-cadastro:hover {
+    transform: translateY(-5px);
+    border-color: #00c9a7;
+}
+
+.card-cadastro h2 {
+    margin: 0 0 0.7rem;
+
+    color: #fff;
+    font-size: 1rem;
+}
+
+.card-cadastro p {
+    margin: 0;
+
+    color: #8892a4;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+
+/* parte do lado direito */
+
+.cadastro-direita {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2.5rem;
+
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: none;
+
+    border-radius: 0 28px 28px 0;
+}
+
+/* caixa do cadastro */
+
+.caixa-cadastro {
+    width: 100%;
+    max-width: 420px;
+
+    color: #07101f;
+}
+
+/* título do <fomr> */
+
+.titulo-cadastro {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.titulo-cadastro h1 {
+    margin: 0 0 0.7rem;
+
+    color: #07101f;
+    font-size: 2.2rem;
+}
+
+.titulo-cadastro p {
+    margin: 0;
+
+    color: #5f6b7a;
+    line-height: 1.5;
+}
+
+/* css do <form> */
+
+.formulario-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* css do label e input */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.campo label {
+    color: #344256;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.area-input {
+    position: relative;
+}
+
+
+/* inputs isolados*/
+
+.area-input input {
+    width: 100%;
+
+    background: #f7f9fc;
+    border: 1px solid #d8e0ea;
+    color: #07101f;
+
+    padding: 13px 15px;
+    border-radius: 12px;
+
+    outline: none;
+    font-size: 0.95rem;
+
+    transition: 0.3s ease;
+}
+
+.area-input input::placeholder {
+    color: #9aa5b5;
+}
+
+.area-input input:focus {
+    border-color: #00c9a7;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 201, 167, 0.12);
+}
+
+/* checkbox */
+
+.termos-cadastro {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+
+    color: #5f6b7a;
+    font-size: 0.88rem;
+    line-height: 1.4;
+
+    cursor: pointer;
+}
+
+.termos-cadastro input {
+    margin-top: 2px;
+    accent-color: #00c9a7; /* Cor do checkbox quando marcado */
+}
+
+/* css do <button> */
+
+.btn-cadastrar {
+    width: 100%;
+
+    background: #00c9a7;
+    border: none;
+    color: #06101e;
+
+    padding: 14px;
+    border-radius: 12px;
+
+    font-weight: 800;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    margin-top: 0.5rem;
+}
+
+.btn-cadastrar:hover {
+    background: #00b596;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 201, 167, 0.24);
+}
+
+/* texto pra qm ja tem conta */
+
+.login-link {
+    text-align: center;
+
+    color: #5f6b7a;
+    font-size: 0.92rem;
+
+    margin: 0.5rem 0 0;
+}
+
+.login-link a {
+    color: #00a98c;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.login-link a:hover {
+    color: #008f78;
+    text-decoration: underline;
+}

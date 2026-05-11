@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathora - Cadastro</title>
+    <link rel="stylesheet" href="/css/cadastro.css">
+</head>
+<body>
+    <main class="cadastro">
+        <section class="cadastro-esquerda">
+            <!-- Logo do Pathora -->
+            <div class="logo">
+                <img src="/imgs/logo.png" alt="logo Pathora">
+                <span>Pathora</span>
+            </div>
+            <!-- Conteúdo principal da parte esquerda -->
+            <div class="cadastro-conteudo">
+                <span class="badge-cadastro">Prevenção inteligente</span>
+                <h1>Crie sua conta no Pathora.</h1>
+                <p>Monitore riscos epidemiológicos, acompanhe alertas e ajude sua região a agir antes dos surtos.</p>
+                <!-- Cards com benefícios de criar uma conta -->
+                <div class="cards-cadastro">
+                    <div class="card-cadastro">
+                        <h2>Alertas antecipados</h2>
+                        <p>Receba avisos sobre regiões com maior chance de surtos.</p>
+                    </div>
+                    <div class="card-cadastro">
+                        <h2>Dados climáticos</h2>
+                        <p>Acompanhe temperatura, chuva e umidade para entender os riscos.</p>
+                    </div>
+                    <div class="card-cadastro">
+                        <h2>Mapa de risco</h2>
+                        <p>Visualize áreas com risco baixo, médio ou alto de epidemias.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="cadastro-direita">
+            <!-- Caixa principal do cadastro -->
+            <div class="caixa-cadastro">
+                <!-- Título do formulário -->
+                <div class="titulo-cadastro">
+                    <h1>Criar conta</h1>
+                    <p>Preencha os dados para começar a usar o Pathora.</p>
+                </div>
+                <!-- Formulário de cadastro -->
+                <form class="formulario-cadastro">
+                    <div class="campo">
+                        <!-- A label é o texto que identifica o campo. O for dela precisa ter o mesmo nome do id do input para os dois ficarem conectados -->
+                        <label for="nome">Nome Completo</label>
+                        <div class="area-input">
+                            <!-- Aqui criei o input pra colocar o nome no cadastro -->
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome:" required>
+                        </div>
+                    </div>
+                    <div class="campo">
+                        <!-- Campo de e-mail do usuário -->
+                        <label for="email">E-mail</label>
+                        <div class="area-input">
+                            <input type="email" id="email" name="email" placeholder="Digite seu email:" required>
+                        </div>
+                    </div>
+                    <div class="campo">
+                        <!-- Campo de senha do usuário -->
+                        <label for="senha">Senha</label>
+                        <div class="area-input">
+                            <input type="password" id="senha" name="senha" placeholder="Digite sua senha:" required>
+                        </div>
+                    </div>
+                    <div class="campo">
+                        <!-- Campo para confirmar se a senha foi digitada igual -->
+                        <label for="confirmar-senha">Confirme sua senha</label>
+                        <div class="area-input">
+                            <input type="password" id="confirmar-senha" name="senha-confirmacao" placeholder="Confirme sua senha:" required>
+                        </div>
+                    </div>
+                    <!-- Checkbox para o usuário aceitar os termos antes de criar a conta -->
+                    <label class="termos-cadastro">
+                        <input type="checkbox" name="termos" required>
+                        <span>Aceito os termos de uso e a política de privacidade.</span>
+                    </label>
+                    <!-- Botão que envia o formulário de cadastro -->
+                    <button type="submit" class="btn-cadastrar">
+                        Criar conta
+                    </button>
+                    <!-- Link para quem já tem conta ir para a página de entrar -->
+                    <p class="login-link">
+                        Já tem uma conta?
+                        <a href="/html/entrar.html">Entrar</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

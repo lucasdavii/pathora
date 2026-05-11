@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathora - Entrar</title>
+    <link rel="stylesheet" href="/css/entrar.css">
+</head>
+<body>
+    <main class="entrar">
+        <section class="entrar-esquerda">
+            <!-- Logo do Pathora -->
+            <div class="logo">
+                <img src="/imgs/logo.png" alt="logo Pathora">
+                <span>Pathora</span>
+            </div>
+
+            <!-- Conteúdo principal da parte esquerda -->
+            <div class="entrar-conteudo">
+                <span class="badge-entrar">Acesso seguro</span>
+                <h1>Entre na plataforma <span>Pathora.</span></h1>
+                <p>Acesse seus painéis, acompanhe alertas, mapas de risco e monitoramento em tempo real para proteger sua região de surtos e epidemias.</p>
+
+                <!-- Cards informativos -->
+                <div class="cards-entrar">
+                    <div class="card-entrar">
+                        <h2>Mapa de risco interativo</h2>
+                        <p>Visualize o risco por região em tempo real com dados atualizados.</p>
+                    </div>
+
+                    <div class="card-entrar">
+                        <h2>Central de alertas</h2>
+                        <p>Receba notificações sobre eventos críticos e tendências de risco.</p>
+                    </div>
+
+                    <div class="card-entrar">
+                        <h2>Conformidade com a LGPD</h2>
+                        <p>Seus dados protegidos com segurança, privacidade e transparência.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="entrar-direita">
+            <!-- Caixa principal do login -->
+            <div class="caixa-entrar">
+                <!-- Título do formulário -->
+                <div class="titulo-entrar">
+                    <h1>Entrar</h1>
+                    <p>Acesse sua conta para continuar.</p>
+                </div>
+
+                <!-- Formulário de login -->
+                <form class="formulario-entrar">
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+                        <div class="area-input">
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <div class="area-input area-senha">
+                            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                            <button type="button" class="toggle-senha">Mostrar</button>
+                        </div>
+                    </div>
+
+                    <div class="opcoes-entrar">
+                        <label class="lembrar">
+                            <input type="checkbox" name="lembrar">
+                            <span>Lembrar de mim</span>
+                        </label>
+
+                        <a href="#" class="esqueci-senha">Esqueci minha senha</a>
+                    </div>
+
+                    <button type="submit" class="btn-entrar-principal">Entrar</button>
+
+                    <button type="button" class="btn-criar-conta" onclick="window.location.href='/html/cadastro.html'">
+                        Ainda não tenho conta
+                    </button>
+
+                    <div class="divisor">
+                        <span>ou</span>
+                    </div>
+
+                    <button type="button" class="btn-google">
+                        Continuar com Google
+                    </button>
+
+                    <p class="termos-entrar">
+                        Ao continuar, você concorda com nossos <a href="#">termos</a>.
+                    </p>
+                </form>
+
+                <!-- Rodapé da parte direita -->
+                <div class="rodape-entrar">
+                    <p>© 2026 Pathora. Todos os direitos reservados.</p>
+                    <div class="links-rodape">
+                        <a href="#">Privacidade</a>
+                        <a href="#">Termos</a>
+                        <a href="#">Contato</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

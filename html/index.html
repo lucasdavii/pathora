@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathora</title>
+    <link rel="stylesheet" href="../css/lp.css">
+</head>
+<body>
+    <!-- Bloco da logo: agrupa a imagem e o nome da marca -->
+    <header>
+        <div class="logo">
+            <img src="/imgs/logo.png" alt="logo pathora">
+            <span>Pathora</span>
+        </div>
+<!-- CLASS é um apelido que você dá a qualquer elemento HTML -->
+<!-- esse apelido conecta o elemento ao CSS, onde você define a aparência dele -->
+<!-- sem class, qualquer estilo que você aplicar afeta TODOS os elementos do mesmo tipo -->
+<!-- com class, você controla um por um — cada um com seu próprio visual -->
+
+<!-- exemplo prático: -->
+<!-- div class="logo"       → só a logo recebe o estilo .logo do CSS -->
+<!-- nav class="nav-links"  → só a nav recebe o estilo .nav-links do CSS -->
+<!-- button class="btn-entrar"    → só esse botão recebe o estilo .btn-entrar -->
+<!-- button class="btn-cadastrar" → só esse botão recebe o estilo .btn-cadastrar -->
+
+<!-- no CSS você chama a class sempre com um ponto na frente: -->
+<!-- .logo { }       .nav-links { }       .btn-entrar { } -->
+    <!--Navegação principal: os links(as palavras que ficam no menu)que levam ate cada parte do site-->
+    <nav class="nav-links">
+        <!--href="#" é um placeholder(É tipo um "deixa em branco por enquanto" — você sabe que vai ter algo ali, mas ainda não criou. O # é o rascunho do link.)
+        o # praticamente siginifica que o não tem un destino definido ainda-->
+        <!--Quando criar a seção, troca por href="#problema" por exemplo-->
+        <!--ai quando clica a pagina ja vai direito pro destino, no caso a seção-->
+        <a href="#problema">Problemas</a> <!--eu criei uma seção com id problemas na linha 65, ai usei o # e o nome problema que e o mesmo nome do id q ja fiz pro js reconhcer que desse "Problema" ir pra seção com esse msm id-->
+        <a href="#solucao">Solução</a>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#impacto">Impacto</a>
+    </nav>
+    <!--Botões de ação: o acesso a conta e cadastro-->
+    <div class="nav-buttons">
+        <button class="btn-entrar" onclick="window.location.href='entrar.html'">Entrar</button>
+        <button class="btn-cadastrar" onclick="window.location.href='cadastro.html'">Cadastrar-se</button>
+<!--abre a tela de login-->
+        <!--btn é o mesmo de botão-->
+        <!-- btn-entrar: estiliza o botão de login, quem clicar vai entrar na conta -->
+<!--Abre a tela de cadastro-->
+    <!-- btn-cadastrar: estiliza o botão de cadastro, quem clicar vai criar uma conta nova -->
+    </div>
+</header> <!--Tudo tem q estar dentro do header para ficar na mesma linha-->
+
+<section class="inicio"> <!--Aqui é a seção, no caso ela vai conter o destino daqueles href="#", e conter todos os elementos do "inicio"-->
+    <div class="p-esquerda"><!--Aqui eu criei uma div(uma caixa que contem os elementos) onde vão estar os elementos da parte esquerda do inicio-->
+        <span>Vigilância em Tempo Real</span> <!--aquele quadrado antes do titulo-->
+        <h1>Prevendo epidemias antes que elas aconteçam.</h1><!--Titulo-->
+        <p>Dados climaticos transformados em decisões inteligentes de saúde publica. Monitore áreas de risco e aja antes que surtos se alastrem.</p>
+        <!--O paragrafo debaixo do titulo-->
+
+        <div class="inicio-botoes"> <!--essa é a div do botões, foi criada para diferenciar daqueles botoes do menu, particamente so copiei com outros valores-->
+        <button class="btn-começar">Começar agora</button> <!--A classe foi mudada para ser elementos dieferentes( sendo mais facil de mexer e estilizar no CSS)-->
+        <button class="btn-como">Ver como funciona</button><!--Mesma coisa aqui-->
+        </div>
+    </div>
+    <div class="p-direita">
+        <img src="/imgs/pathora_mobile.png" alt="pathora mobile version">
+    </div>
+</section>
+
+<section id="problema" class="problema">
+    <div class="meio">
+        <span>• O problema</span>
+        <h1>Epidemias são identificadas tarde demais.</h1>
+        <p>Quando os casos ja estão em alta, o sistema de saúde está sobrecarregado</p>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <h2>Dados não integrados</h2>
+            <p>
+                Informações clínicas, climáticas e demográficas em silos separados, sem visão de risco unificada.
+            </p>
+        </div>
+        <div class="card">
+            <h2> Sem previsão antecipada</h2>
+            <p>Sistemas atuais são reativos. Só identificam surtos após se espalharem por múltiplas comunidades.</p>
+        </div>
+        <div class="card">
+            <h2>Resposta tardia</h2>
+            <p>Gestores recebem alertas com semanas de atraso, quando já não há recursos para conter o avanço.</p>
+        </div>
+    </div>
+</section>
+
+<section id="solucao" class="solucao">
+    <div class="left">
+        <span>• A Solução</span>
+        <h1>IA Climática para prever surtos.</h1>
+        <p>Múltiplas  fontes de dados, modelos preditivos e alertas antes do tempo</p>
+
+        <div class="topics">
+            <div class="topic">
+                <span>01</span>
+                <h2>Coleta de Dados</h2>
+                <p>
+                    Temperatura, umidade, densidade e histórico de doenças em tempo real via INPE e NASA.
+                </p>
+            </div>
+
+            <div class="topic">
+                <span>02</span>
+                <h2>Análise Preditiva</h2>
+                <p>
+                    Machine learning identifica padrões de risco antes que virem surtos clínicos detectáveis.
+                </p>
+            </div>
+
+            <div class="topic">
+                <span>03</span>
+                <h2>Alerta Antecipado</h2>
+                <p>
+                    Gestores recebem alertas georreferenciados dias ou semanas antes do surto se manifestar.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <!--Aqui vai ser o local do dashboard-->
+    </div>
+</section>
+
+<section id="funcionalidades" class="funcionalidades">
+    <div class="plataforma">
+        <span>• Plataforma</span>
+        <h1>Tudo em um so lugar</h1>
+        <p>Acesse os módulos do Pathora pelo painel web</p>
+    </div>
+
+    <div class="left1">
+        <div class="card-func">
+            <img src="/imgs/ia.png" alt="ícone da Cypher AI" class="card-icon">
+            <h2>Converse com a Cypher AI</h2>
+            <p>Interaja com nossa inteligência artificial.</p>
+            <a href="modulo-ia.html">Acessar →</a> <!--Aqui eu usei o "a"(link) por que aqui vai ser algo clicavel, ou seja é uma especie de botao, 
+                aqui o usuario vai apertar o "acessar" e vai ser direcionado para outro lugar do site-->
+        </div>
+
+        <div class="card-func">
+            <img src="/imgs/mapa-risco-icon.png" alt="ícone do mapa de risco" class="card-icon">
+            <h2>Mapa de risco interativo</h2>
+            <p>Visualização georrefenciada com indicadores baixo,médio e alto</p>
+            <a href="mapa-risco.html">Ver mapa →</a>
+        </div>
+
+        <div class="card-func">
+            <img src="/imgs/alertas-icon.png" alt="ícone da central de alertas" class="card-icon">
+            <h2>Central de alertas</h2>
+            <p>Notificações georreferenciadas quando padrões críticos são detectados.</p>
+            <a href="#"> Configurar →</a>
+        </div>
+    </div>
+
+    <div class="right1">
+        <div class="card-func">
+            <img src="/imgs/relatorios-icon.png" alt="ícone dos relatórios epidemiológicos" class="card-icon">
+            <h2>Relatórios Epidemiológicos</h2>
+            <p>Gere relatórios para embasar políticas públicas de saúde.</p>
+            <a href="#">Gerar →</a>
+        </div>
+
+        <div class="card-func">
+            <img src="/imgs/clima-icon.png" alt="ícone dos dados climáticos" class="card-icon">
+            <h2>Dados Climáticos</h2>
+            <p>Integração com INPE e NASA EarthData para análise ambiental.</p>
+            <a href="#">Explorar →</a>
+        </div>
+
+        <div class="card-func">
+            <img src="/imgs/api-icon.png" alt="ícone de API e integrações" class="card-icon">
+            <h2>API & Integrações</h2>
+            <p>Conecte com sistemas municipais. Documentação para devs.</p>
+            <a href="#">Ver docs →</a>
+        </div>
+    </div>
+</section>
+
+<section id="impacto" class="impacto">
+    <div class="impacto-title">
+        <span>• Impacto</span>
+        <h1>Números que fazem a diferença.</h1>
+    </div>
+    <div class="inf">
+        <div class="cards-inf">
+            <h3>40%</h3>
+            <h2>Redução de casos</h2>
+            <p>Em surtos monitorados com antecendência pelo Pathora</p>
+        </div>
+        <div class="cards-inf">
+            <h3>21</h3>
+            <h2>Dias de antecendência</h2>
+            <p>Alertas antes da manifestação cllinica do surto.</p>
+        </div>
+        <div class="cards-inf">
+            <h3>95%</h3>
+            <h2>Precisão preditiva</h2>
+            <p>Precisão dos modelos preditivos validados.</p>
+        </div>
+    </div>
+</section>
+
+<section id="final" class="final">
+    <div class="start">
+        <span>Comece agora!</span> 
+        <h2>Se Junte ao Pathora</h2>
+        <h2>Proteja sua região</h2>
+        <p>Feito com rigor científico para garantir precisão nos alertas.</p>
+        
+        <div class="botoes-cmc">
+            <button class="btn-começar" onclick="window.location.href='cadastro.html'">Cadastrar-se gratuitamente</button>
+            <button class="btn-jtc" onclick="window.location.href='entrar.html'">Já tenho conta</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">
+        <img src="/imgs/logo.png" alt="logo pathora">
+        <span>Pathora</span>
+    </div>
+
+    <div class="copyright">
+        <p>© 2026 Pathora. Todos os direitos reservados.</p>
+    </div>
+
+    <nav class="footer-links"> <!--Não usei div aqui porque os google entende o "nav" como os links de navegação /oq é melhor-->
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Contato</a>
+    </nav>
+</footer>
+
+
+<!-- 
+    Chart.js é uma biblioteca pronta para criar gráficos reais no site.
+    Ela precisa vir antes do nosso script.js, porque o nosso JavaScript vai usar ela.
+-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- 
+    Esse é o nosso arquivo JavaScript normal.
+    Aqui vai ficar o código que cria o gráfico.
+-->
+<script src="../javascript/script.js"></script>
+
+</body>
+</html>

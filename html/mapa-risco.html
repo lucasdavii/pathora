@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathora - Mapa de Risco</title>
+
+    <!-- css do leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+    <!-- css da page -->
+    <link rel="stylesheet" href="../css/mapa-risco.css">
+</head>
+<body>
+    <header class="topo-mapa">
+    <div class="logo">
+        <img src="../imgs/logo.png" alt="logo pathora">
+        <span>Pathora</span>
+    </div>
+
+    <div class="header-direita">
+        <nav class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="modulo-ia.html">Cypher IA</a>
+            <a href="entrar.html">Entrar</a>
+        </nav>
+
+        <a href="index.html" class="btn-voltar">Voltar para início</a>
+    </div>
+</header>
+
+    <main class="mapa-page">
+        <section class="mapa-info">
+            <span>• Mapa interativo</span>
+            <h1>Mapa de risco epidemiológico</h1>
+            <p>
+                Visualize regiões com risco baixo, médio ou alto de surtos com base em temperatura,
+                umidade e chuva recente.
+            </p>
+
+            <div class="legenda">
+                <div>
+                    <span class="bolinha baixo"></span>
+                    Baixo risco
+                </div>
+
+                <div>
+                    <span class="bolinha medio"></span>
+                    Médio risco
+                </div>
+
+                <div>
+                    <span class="bolinha alto"></span>
+                    Alto risco
+                </div>
+            </div>
+
+            <div class="painel-dados">
+                <h2>Regiões monitoradas</h2>
+                <p>Tianguá, Sobral, Fortaleza e Juazeiro do Norte.</p>
+            </div>
+        </section>
+
+        <section class="mapa-container">
+            <div id="mapa"></div>
+        </section>
+    </main>
+
+    <!-- js do leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- js do mapa -->
+    <script src="../javascript/mapa-risco.js"></script>
+</body>
+</html>

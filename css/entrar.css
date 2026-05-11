@@ -1,0 +1,572 @@
+/* body */
+
+* {
+    box-sizing: border-box; /* Faz padding e borda entrarem no tamanho real do elemento */
+}
+
+body {
+    margin: 0; /* Remove a margem padrão do navegador */
+    min-height: 100vh; /* Faz a página ocupar a altura inteira da tela */
+
+    font-family: Arial, Helvetica, sans-serif; /* Fonte principal */
+    color: #fff; /* Cor padrão dos textos */
+
+    background:
+        radial-gradient(circle at top left, rgba(0, 201, 167, 0.22), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(30, 58, 95, 0.65), transparent 35%),
+        #0a1628; /* Fundo escuro principal do Pathora com brilhos */
+
+    display: flex; /* Centraliza o fieldset principal */
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem; /* Espaço ao redor do fieldset */
+}
+
+/* container principal */
+
+.entrar {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 620px;
+
+    display: grid; /* Divide a tela em colunas */
+    grid-template-columns: 1.1fr 0.9fr; /* Esquerda maior, direita menor */
+
+    background: #112240;
+
+    border: 1px solid #1e3a5f; /* Borda do fieldset principal */
+    border-radius: 28px; /* Arredonda o fieldset */
+    overflow: hidden; /* Faz os cantos arredondados funcionarem */
+
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+}
+
+/* lado esquerdo */
+
+.entrar-esquerda {
+    position: relative; /* Permite criar detalhes decorativos */
+    overflow: hidden; /* Esconde elementos decorativos que passarem da área */
+
+    padding: 2rem 2.5rem;
+
+    display: flex;
+    flex-direction: column; /* Logo em cima e conteúdo abaixo */
+    justify-content: flex-start;
+
+    background:
+        radial-gradient(circle at 8% 38%, rgba(0, 201, 167, 0.28), transparent 30%),
+        linear-gradient(135deg, #07101f, #112240 55%, #0a1628);
+}
+
+/* fundo decorativo */
+
+.entrar-esquerda::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+
+    background-size: 85px 85px;
+    opacity: 0.35;
+}
+
+.entrar-esquerda::after {
+    content: "";
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    left: -180px;
+    bottom: -170px;
+
+    border: 1px solid rgba(0, 201, 167, 0.2);
+    border-radius: 50%;
+
+    box-shadow: inset 0 0 90px rgba(0, 201, 167, 0.08);
+}
+
+/* header / logo */
+
+.entrar-header {
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    display: flex; /* Logo e texto lado a lado */
+    align-items: center; /* Centraliza verticalmente */
+    gap: 10px; /* Espaço entre imagem e texto */
+
+    position: relative;
+    z-index: 1;
+}
+
+.logo img {
+    height: 45px; /* Tamanho da logo */
+    width: auto; /* Mantém proporção */
+    display: block;
+}
+
+.logo span {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* conteúdo esquerdo */
+
+.entrar-conteudo {
+    position: relative;
+    z-index: 1;
+
+    max-width: 650px;
+    margin-top: 4.5rem;
+}
+
+.badge-login,
+.badge-entrar {
+    display: inline-block;
+
+    color: #00c9a7;
+    background: rgba(0, 201, 167, 0.08);
+    border: 1px solid #1e3a5f;
+
+    padding: 8px 14px;
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    margin-bottom: 1.5rem;
+}
+
+.entrar-conteudo h1 {
+    margin: 0 0 1rem;
+
+    font-size: 3rem;
+    line-height: 1.08;
+    letter-spacing: -1px;
+}
+
+.entrar-conteudo h1 strong,
+.entrar-conteudo h1 span {
+    color: #00c9a7; /* Destaca Pathora no título */
+}
+
+.entrar-conteudo > p {
+    margin: 0 0 2rem;
+
+    color: #b3bfd1;
+    font-size: 1rem;
+    line-height: 1.7;
+
+    max-width: 570px;
+}
+
+/* cards */
+
+.cards-login,
+.cards-entrar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Três cards lado a lado */
+    gap: 1rem;
+
+    margin-top: 1.8rem;
+}
+
+.card-login,
+.card-entrar {
+    min-height: 130px;
+
+    background: rgba(10, 22, 40, 0.75);
+    border: 1px solid #1e3a5f;
+    border-radius: 16px;
+
+    padding: 1rem;
+
+    backdrop-filter: blur(8px); /* Efeito de vidro */
+    transition: 0.3s ease;
+}
+
+.card-login:hover,
+.card-entrar:hover {
+    transform: translateY(-5px); /* Sobe no hover */
+    border-color: #00c9a7;
+}
+
+.texto-card h2,
+.card-entrar h2 {
+    margin: 0 0 0.7rem;
+
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.texto-card p,
+.card-entrar p {
+    margin: 0;
+
+    color: #8892a4;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* área antiga do mapa removida */
+
+.area-mapa,
+.mapa-brasil,
+.card-risco,
+.card-risco-principal,
+.card-risco-grafico,
+.img-grafico-risco,
+.entrar-footer,
+.item-seguranca {
+    display: none;
+}
+
+/* lado direito */
+
+.entrar-direita {
+    padding: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.96);
+    color: #07101f;
+}
+
+/* caixa principal do form */
+
+.caixa-login,
+.caixa-entrar {
+    width: 100%;
+    max-width: 420px;
+
+    margin: auto 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+
+    padding: 0;
+
+    box-shadow: none;
+}
+
+/* título */
+
+.titulo-login,
+.titulo-entrar {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.titulo-login h1,
+.titulo-entrar h1 {
+    margin: 0 0 0.7rem;
+
+    color: #07101f;
+    font-size: 2.2rem;
+}
+
+.titulo-login p,
+.titulo-entrar p {
+    margin: 0;
+
+    color: #5f6b7a;
+    line-height: 1.5;
+}
+
+/* formulário */
+
+.form-login,
+.formulario-entrar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* inputs e campos */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.campo label {
+    color: #344256;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.input-area,
+.area-input {
+    position: relative;
+}
+
+.input-area input,
+.area-input input {
+    width: 100%;
+
+    background: #f7f9fc;
+    border: 1px solid #d8e0ea;
+    color: #07101f;
+
+    padding: 13px 15px;
+    border-radius: 12px;
+
+    outline: none;
+    font-size: 0.95rem;
+
+    transition: 0.3s ease;
+}
+
+.input-area input::placeholder,
+.area-input input::placeholder {
+    color: #9aa5b5;
+}
+
+.input-area input:focus,
+.area-input input:focus {
+    border-color: #00c9a7;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 201, 167, 0.12);
+}
+
+/* mostrar senha */
+
+.btn-mostrar-senha,
+.toggle-senha {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    background: transparent;
+    border: none;
+    color: #00a98c;
+
+    font-weight: 700;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+}
+
+.btn-mostrar-senha:hover,
+.toggle-senha:hover {
+    color: #008f78;
+}
+
+/* lembrar e esqueci senha */
+
+.opcoes-login,
+.opcoes-entrar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    font-size: 0.88rem;
+}
+
+.lembrar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    color: #5f6b7a;
+    cursor: pointer;
+}
+
+.lembrar input {
+    accent-color: #00c9a7;
+}
+
+.opcoes-login a,
+.opcoes-entrar a,
+.esqueci-senha {
+    color: #00a98c;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.opcoes-login a:hover,
+.opcoes-entrar a:hover,
+.esqueci-senha:hover {
+    color: #008f78;
+    text-decoration: underline;
+}
+
+/* botão de entrar */
+
+.btn-login,
+.btn-entrar-principal {
+    width: 100%;
+
+    background: #00c9a7;
+    border: none;
+    color: #06101e;
+
+    padding: 14px;
+    border-radius: 12px;
+
+    font-weight: 800;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-login:hover,
+.btn-entrar-principal:hover {
+    background: #00b596;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 201, 167, 0.24);
+}
+
+/* botão de criar conta */
+
+.btn-criar-conta {
+    display: block;
+
+    width: 100%;
+
+    text-align: center;
+    text-decoration: none;
+
+    background: transparent;
+    border: 1px solid #d8e0ea;
+    color: #344256;
+
+    padding: 13px;
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-criar-conta:hover {
+    border-color: #00c9a7;
+    color: #00a98c;
+    background: rgba(0, 201, 167, 0.06);
+}
+
+/* separador */
+
+.separador,
+.divisor {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    color: #9aa5b5;
+}
+
+.separador span,
+.divisor::before,
+.divisor::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #d8e0ea;
+}
+
+.separador p,
+.divisor span {
+    margin: 0;
+    font-size: 0.88rem;
+}
+
+/* botão google */
+
+.btn-google {
+    width: 100%;
+
+    background: #fff;
+    border: 1px solid #d8e0ea;
+    color: #344256;
+
+    padding: 13px;
+    border-radius: 12px;
+
+    font-weight: 800;
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.btn-google:hover {
+    border-color: #00c9a7;
+    background: #f7fffd;
+}
+
+/* termos de login */
+
+.termos-login,
+.termos-entrar {
+    margin: 1.3rem 0 0;
+
+    color: #5f6b7a;
+    font-size: 0.82rem;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.termos-login a,
+.termos-entrar a {
+    color: #00a98c;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.termos-login a:hover,
+.termos-entrar a:hover {
+    text-decoration: underline;
+}
+
+/* rodapé da direita */
+
+.footer-login,
+.rodape-entrar {
+    width: 100%;
+    max-width: 420px;
+
+    color: #5f6b7a;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.footer-login p,
+.rodape-entrar p {
+    margin: 0 0 0.7rem;
+}
+
+.footer-login nav,
+.links-rodape {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footer-login a,
+.links-rodape a {
+    color: #5f6b7a;
+    text-decoration: none;
+}
+
+.footer-login a:hover,
+.links-rodape a:hover {
+    color: #00a98c;
+}

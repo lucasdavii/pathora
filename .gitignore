@@ -1,0 +1,14 @@
+# Arquivo com chaves/API keys
+.env
+backend/.env
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Configurações do VS Code
+.vscode/
+
+# Ambiente virtual, se criar depois
+venv/
+.venv/
