@@ -275,6 +275,8 @@ section {
     max-width: 760px;
 }
 
+
+
 .p-esquerda h1::first-line {
     color: #fff;
 }
@@ -894,3 +896,4 @@ footer {
 .footer-links a:hover {
     color: #00c9a7;
 }
+

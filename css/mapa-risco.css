@@ -53,7 +53,7 @@ body {
     gap: 1rem;
 }
 
-/* Menu principal em formato pill */
+/* main menu em formato pill */
 .nav-links {
     display: flex;
     align-items: center;
@@ -83,7 +83,7 @@ body {
     background: rgba(0, 201, 167, 0.08);
 }
 
-/* Botão CTA separado */
+/* botão cta separado */
 .btn-voltar {
     display: inline-flex;
     align-items: center;
@@ -262,46 +262,4 @@ body {
 
 .popup-risco p {
     margin: 0.35rem 0;
-}
-
-/* responsividade*/
-
-@media (max-width: 900px) {
-    header {
-        height: auto;
-        padding: 1rem;
-
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .mapa-page {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    #mapa {
-        height: 520px;
-        min-height: 520px;
-    }
-}
-
-.btn-voltar {
-    background: #00c9a7;
-    color: #06101e;
-    padding: 10px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: 0.3s ease;
-}
-
-.btn-voltar:hover {
-    background: #00b596;
-    transform: translateY(-2px);
 }
