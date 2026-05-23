@@ -1,6 +1,6 @@
 /* 
 css do cypher ai
- */
+*/
 
 * {
     box-sizing: border-box; /* faz padding e borda entrarem no cálculo do tamanho */
@@ -10,11 +10,32 @@ html {
     scroll-behavior: smooth; /* rolagem suave no scroll do mouse*/
 }
 
+:root {
+    --fundo: #0a1628;
+    --painel: #112240;
+    --painel-escuro: #081426;
+    --borda: #1e3a5f;
+
+    --texto: #ffffff;
+    --texto-fraco: #8892a4;
+    --texto-chat: #d7dee9;
+
+    --destaque: #00a88f;
+    --destaque-hover: #008f7a;
+
+    --alto: #d94b5c;
+    --medio: #d6a93a;
+    --baixo: #4f9ecf;
+}
+
 body {
-    background: #0a1628; /* fundo escuro principal */
+    background:
+    radial-gradient(circle at top left, rgba(0, 168, 143, 0.08), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(79, 158, 207, 0.07), transparent 32%),
+    var(--fundo); /* fundo escuro principal com brilho leve */
     margin: 0; /* remove margem padrao do navegador */
-    color: #fff; 
-    font-family: Arial, Helvetica, sans-serif; 
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* header tropinha */
@@ -29,7 +50,7 @@ header {
     padding: 0 2rem;
 
     background: rgba(10, 22, 40, 0.95); /* fundo escuro bem sólido */
-    border-bottom: 1px solid #1e3a5f; /* linha separando o header do conteúdo */
+    border-bottom: 1px solid var(--borda); /* linha separando o header do conteúdo */
 }
 
 /* logozinha */
@@ -44,15 +65,15 @@ header {
     height: 45px; /* tamanho da logo */
     width: auto; /* mantém proporçao automatica */
     display: block; /* remove espaço estranho embaixo da imagem */
+    filter: drop-shadow(0 0 8px rgba(0, 168, 143, 0.28));
 }
 
 .logo span {
-    color: #fff;
+    color: var(--texto);
     font-size: 1.3rem;
     font-weight: 700;
     line-height: 1;
 }
-
 
 /* links de navegaçao*/
 
@@ -62,35 +83,35 @@ header {
 }
 
 .nav-links a {
-    color: #8892a4; /* cinza azulado */
+    color: var(--texto-fraco); /* cinza azulado */
     text-decoration: none; /* remove sublinhado */
     font-size: 0.95rem;
     transition: 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #00c9a7; /* verde ao passar o mouse */
+    color: var(--baixo); /* azul mais calmo, combina com monitoramento */
 }
 
 /* status e botao sair */
 
 .status {
-    color: #8892a4;
+    color: var(--texto-fraco);
     font-size: 0.9rem;
 
-    border: 1px solid #1e3a5f;
-    background: rgba(0, 201, 167, 0.06);
+    border: 1px solid var(--borda);
+    background: rgba(0, 168, 143, 0.05);
 
     padding: 8px 14px;
     border-radius: 999px; /* formato de cápsula */
 }
 
 .online {
-    color: #00c9a7; /* bolinha verde */
+    color: var(--destaque); /* bolinha de sistema online */
 }
 
 .btn-sair {
-    background: #00c9a7;
+    background: var(--destaque);
     border: none;
     color: #06101e;
 
@@ -104,7 +125,7 @@ header {
 }
 
 .btn-sair:hover {
-    background: #00b596;
+    background: var(--destaque-hover);
     transform: translateY(-2px);
 }
 
@@ -125,8 +146,8 @@ main {
 /* painel */
 
 .painel-chat {
-    background: linear-gradient(180deg, #112240, #0a1628); /* degrade vertical */
-    border: 1px solid #1e3a5f;
+    background: linear-gradient(180deg, var(--painel), var(--fundo)); /* degrade vertical */
+    border: 1px solid var(--borda);
     border-radius: 24px;
 
     padding: 2rem;
@@ -135,13 +156,13 @@ main {
     display: flex;
     flex-direction: column; /* header, mensagens e input em colunas*/
 
-    box-shadow: 0 20px 60px rgba(0, 201, 167, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
 }
 
 /* cabeçalho, titulo, etc */
 
 .chat-header {
-    border-bottom: 1px solid #1e3a5f;
+    border-bottom: 1px solid var(--borda);
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -153,7 +174,7 @@ main {
 
 .chat-header h2 {
     margin: 0.5rem 0 1rem;
-    color: #8892a4;
+    color: var(--texto-fraco);
     font-size: 1rem;
     font-weight: 400;
 }
@@ -161,9 +182,9 @@ main {
 .chat-header span {
     display: inline-block;
 
-    color: #00c9a7;
-    border: 1px solid #1e3a5f;
-    background: rgba(0, 201, 167, 0.08);
+    color: var(--destaque);
+    border: 1px solid var(--borda);
+    background: rgba(0, 168, 143, 0.07);
 
     padding: 7px 12px;
     border-radius: 999px;
@@ -182,14 +203,14 @@ main {
 }
 
 .modo-ia-box label {
-    color: #8892a4; /* usa o mesmo cinza azulado dos textos secundarios */
+    color: var(--texto-fraco); /* usa o mesmo cinza azulado dos textos secundarios */
     font-size: 0.9rem;
 }
 
 .modo-ia-box select {
-    background: #0a1628; /* fundo escuro igual os inputs do sistema */
-    border: 1px solid #1e3a5f; /* borda azul escura igual o padrão dos campos */
-    color: #fff;
+    background: var(--fundo); /* fundo escuro igual os inputs do sistema */
+    border: 1px solid var(--borda); /* borda azul escura igual o padrão dos campos */
+    color: var(--texto);
 
     padding: 10px 12px;
     border-radius: 10px;
@@ -202,27 +223,66 @@ main {
 }
 
 .modo-ia-box select:focus {
-    border-color: #00c9a7; /* quando clicar no select, a borda fica verde igual os outros campos */
-    box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.12);
+    border-color: var(--destaque); /* quando clicar no select, a borda fica destacada */
+    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
 }
 
 /* area das mensagens */
 
 .chat-msg {
     flex: 1; /* ocupar o espaço livre dentro do painel */
-    background: rgba(10, 22, 40, 0.7);
+    background: rgba(5, 14, 28, 0.75);
 
-    border: 1px solid #1e3a5f;
+    border: 1px solid var(--borda);
     border-radius: 16px;
 
     padding: 1.5rem;
     overflow-y: auto; /* cria scroll se tiver muita mensagem */
+
+    display: flex; /* permite separar mensagens em balões */
+    flex-direction: column; /* deixa cada mensagem uma embaixo da outra */
+    gap: 14px; /* espaço entre os balões */
 }
+
+/* estilo base de toda mensagem do chat */
 
 .chat-msg p {
     margin: 0;
-    color: #d7dee9;
+    max-width: 78%;
+
+    color: var(--texto-chat);
     line-height: 1.7;
+
+    padding: 13px 16px;
+    border-radius: 18px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.20);
+    word-wrap: break-word;
+}
+
+/* mensagem da ia, fica do lado esquerdo */
+
+.chat-msg p:first-child,
+.msg-ia {
+    align-self: flex-start;
+
+    background: rgba(17, 34, 64, 0.95);
+    border: 1px solid rgba(136, 146, 164, 0.22);
+
+    color: var(--texto-chat);
+    border-bottom-left-radius: 5px;
+}
+
+/* mensagem do usuario, fica do lado direito */
+
+.msg-user {
+    align-self: flex-end;
+
+    background: linear-gradient(135deg, #21a8bd, #4f9ecf);
+    color: #06101e;
+
+    font-weight: 700;
+    border-bottom-right-radius: 5px;
 }
 
 /* input do usuario*/
@@ -236,9 +296,9 @@ main {
 .chat-input input {
     flex: 1; /* input ocupa todo o espaço disponível */
 
-    background: #0a1628;
-    border: 1px solid #1e3a5f;
-    color: #fff;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    color: var(--texto);
 
     padding: 14px 16px;
     border-radius: 10px;
@@ -250,16 +310,16 @@ main {
 }
 
 .chat-input input:focus {
-    border-color: #00c9a7;
-    box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.12);
+    border-color: var(--destaque);
+    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
 }
 
 .chat-input input::placeholder {
-    color: #8892a4;
+    color: var(--texto-fraco);
 }
 
 .btn-enviar {
-    background: #00c9a7;
+    background: var(--destaque);
     border: none;
     color: #06101e;
 
@@ -273,7 +333,7 @@ main {
 }
 
 .btn-enviar:hover {
-    background: #00b596;
+    background: var(--destaque-hover);
     transform: translateY(-2px);
 }
 
@@ -288,19 +348,21 @@ main {
 /* card de risco geral */
 
 .risco-geral {
-    background: radial-gradient(circle at top, rgba(0, 201, 167, 0.2), #112240 45%, #0a1628);
-    border: 1px solid #1e3a5f;
+    background: radial-gradient(circle at top, rgba(79, 158, 207, 0.14), var(--painel) 45%, var(--fundo));
+    border: 1px solid var(--borda);
     border-radius: 24px;
 
     padding: 2rem;
     text-align: center;
 
-    box-shadow: 0 20px 60px rgba(0, 201, 167, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+
+    transition: 0.3s ease;
 }
 
 .risco-geral h2 {
     margin: 0;
-    color: #8892a4;
+    color: var(--texto-fraco);
     font-size: 1rem;
     font-weight: 400;
 }
@@ -308,26 +370,71 @@ main {
 .valor-risco {
     margin: 1rem 0;
 
-    color: #00c9a7;
+    color: var(--baixo);
     font-size: 3rem;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
+
+    text-shadow: 0 0 16px rgba(79, 158, 207, 0.45);
 }
 
 .risco-geral h3 {
     margin: 0;
-    color: #fff;
+    color: var(--texto);
     font-size: 1rem;
+}
+
+/* essas classes mudam a cor do card conforme o risco que vier do javascript */
+
+/* risco alto: vermelho mais fechado, sem ficar neon */
+
+.risco-alto {
+    background: radial-gradient(circle at top, rgba(217, 75, 92, 0.18), var(--painel) 45%, var(--fundo));
+    border-color: rgba(217, 75, 92, 0.45);
+    box-shadow: 0 20px 60px rgba(217, 75, 92, 0.08);
+}
+
+.risco-alto .valor-risco {
+    color: var(--alto);
+    text-shadow: 0 0 16px rgba(217, 75, 92, 0.42);
+}
+
+/* risco medio: amarelo mais queimado, nao aquele amarelo estourado */
+
+.risco-medio {
+    background: radial-gradient(circle at top, rgba(214, 169, 58, 0.16), var(--painel) 45%, var(--fundo));
+    border-color: rgba(214, 169, 58, 0.42);
+    box-shadow: 0 20px 60px rgba(214, 169, 58, 0.08);
+}
+
+.risco-medio .valor-risco {
+    color: var(--medio);
+    text-shadow: 0 0 16px rgba(214, 169, 58, 0.38);
+}
+
+/* risco baixo: azul mais calmo, pq combina com monitoramento */
+
+.risco-baixo {
+    background: radial-gradient(circle at top, rgba(79, 158, 207, 0.16), var(--painel) 45%, var(--fundo));
+    border-color: rgba(79, 158, 207, 0.42);
+    box-shadow: 0 20px 60px rgba(79, 158, 207, 0.08);
+}
+
+.risco-baixo .valor-risco {
+    color: var(--baixo);
+    text-shadow: 0 0 16px rgba(79, 158, 207, 0.38);
 }
 
 /* area onde o usuario informa os status */
 
 .formulario-risco {
-    background: #112240;
-    border: 1px solid #1e3a5f;
+    background: var(--painel);
+    border: 1px solid var(--borda);
     border-radius: 20px;
 
     padding: 1.5rem;
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
 }
 
 .formulario-risco h2 {
@@ -345,15 +452,15 @@ main {
 }
 
 .campo-risco label {
-    color: #8892a4;
+    color: var(--texto-fraco);
     font-size: 0.9rem;
 }
 
 .campo-risco input,
 .campo-risco select {
-    background: #0a1628;
-    border: 1px solid #1e3a5f;
-    color: #fff;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    color: var(--texto);
 
     padding: 12px 14px;
     border-radius: 10px;
@@ -366,8 +473,8 @@ main {
 
 .campo-risco input:focus,
 .campo-risco select:focus {
-    border-color: #00c9a7;
-    box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.12);
+    border-color: var(--destaque);
+    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
 }
 
 /* botao calcular */
@@ -377,7 +484,7 @@ main {
 
     margin-top: 0.5rem;
 
-    background: #00c9a7;
+    background: var(--destaque);
     border: none;
     color: #06101e;
 
@@ -391,32 +498,43 @@ main {
 }
 
 .btn-calcular-risco:hover {
-    background: #00b596;
+    background: var(--destaque-hover);
     transform: translateY(-2px);
 }
-
 
 /* lista de doença q o cypher olha */
 
 .grafico {
-    background: #112240;
-    border: 1px solid #1e3a5f;
+    background: var(--painel);
+    border: 1px solid var(--borda);
     border-radius: 20px;
 
     padding: 1.5rem;
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
 }
 
 .grafico h2 {
     margin: 0 0 1rem;
 }
 
-.grafico span {
-    display: block; /* cada doença fica em uma linha */
+/* aqui fica só uma lista bonita, nao um grafico */
 
-    color: #8892a4;
+.grafico span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--texto-fraco);
     padding: 12px 0;
 
-    border-bottom: 1px solid #1e3a5f;
+    border-bottom: 1px solid var(--borda);
+}
+
+.grafico span::before {
+    content: "●";
+    color: var(--baixo);
+    font-size: 0.7rem;
 }
 
 .grafico span:last-child {
@@ -443,25 +561,25 @@ main {
 }
 
 .emitir-alerta {
-    background: #00c9a7;
+    background: var(--alto);
     border: none;
-    color: #06101e;
+    color: #fff;
 }
 
 .emitir-alerta:hover {
-    background: #00b596;
+    background: #c54252;
     transform: translateY(-2px);
 }
 
 .ver-mapa {
     background: transparent;
-    border: 1px solid #1e3a5f;
-    color: #fff;
+    border: 1px solid var(--borda);
+    color: var(--texto);
 }
 
 .ver-mapa:hover {
-    border-color: #00c9a7;
-    color: #00c9a7;
+    border-color: var(--baixo);
+    color: var(--baixo);
     transform: translateY(-2px);
 }
 
@@ -470,7 +588,7 @@ main {
 footer {
     min-height: 60px;
 
-    border-top: 1px solid #1e3a5f;
+    border-top: 1px solid var(--borda);
     padding: 1rem 2rem;
 
     display: flex;
@@ -478,7 +596,7 @@ footer {
     justify-content: space-between;
     gap: 1rem;
 
-    color: #8892a4;
+    color: var(--texto-fraco);
     font-size: 0.85rem;
 }
 
@@ -492,6 +610,35 @@ footer {
 }
 
 .status-esq span:first-child {
-    color: #00c9a7;
+    color: var(--destaque);
 }
 
+/* responsividade simples pra nao quebrar em telas menores */
+
+@media (max-width: 900px) {
+    header {
+        height: auto;
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .chat-msg p {
+        max-width: 90%;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

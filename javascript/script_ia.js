@@ -2,6 +2,7 @@ const btnenviar = document.querySelector(".btn-enviar") // aqui vou ta criando u
 const inputtxt = document.querySelector(".chat-input input") // aqui vou ta criando a variavel fixa pro input q vou digitar a mensagem para enviar para a ia
 const areamsg = document.querySelector(".chat-msg") // aqui vou ta criando a variavel fixa para a area das mensagens, onde vai acontecer a interação entre o usuario e ia
 const valorRisco = document.querySelector(".valor-risco") // aqui pego o texto do card de nivel de risco pra atualizar ele pelo js
+const cardRisco = document.querySelector(".risco-geral") // aqui pego o card inteiro do risco, pq agora ele tambem vai mudar de cor
 const btnCalcularRisco = document.querySelector(".btn-calcular-risco") // aqui vou ta pegando o botao q calcula o risco epidemiologico
 const inputTemperatura = document.querySelector("#temperatura") // aqui vou ta pegando o input onde o usuario digita a temperatura
 const inputUmidade = document.querySelector("#umidade") // aqui vou ta pegando o input onde o usuario digita a umidade
@@ -16,6 +17,47 @@ function limitarHistorico() { // essa função serve para o historico nao ficar 
     }
 }
 
+function criarMensagem(texto, tipo) { // essa função cria uma mensagem no chat sem precisar ficar usando innerHTML toda hora
+    const mensagem = document.createElement("p") // aqui eu crio uma tag p pelo javascript
+
+    mensagem.textContent = texto // aqui eu coloco o texto dentro da mensagem usando textContent, que é mais seguro que innerHTML
+
+    if (tipo == "usuario") { // se o tipo for usuario
+        mensagem.classList.add("msg-user") // adiciona a classe que deixa o balão do usuario do lado direito
+    } else { // se nao for usuario, vai ser mensagem da ia
+        mensagem.classList.add("msg-ia") // adiciona a classe que deixa o balão da Cypher do lado esquerdo
+    }
+
+    areamsg.appendChild(mensagem) // aqui eu coloco a mensagem nova dentro da area do chat
+    areamsg.scrollTop = areamsg.scrollHeight // aqui o chat desce automaticamente para a ultima mensagem
+}
+
+function removerPensando() { // essa função remove a ultima mensagem de pensando da IA
+    const mensagens = areamsg.querySelectorAll("p") // aqui eu pego todas as mensagens que existem no chat
+    const ultimaMensagem = mensagens[mensagens.length - 1] // aqui eu pego a ultima mensagem da lista
+
+    if (ultimaMensagem && ultimaMensagem.textContent.includes("pensando")) { // se existir ultima mensagem e ela tiver pensando no texto
+        ultimaMensagem.remove() // remove a mensagem temporaria da tela
+    }
+}
+
+function atualizarRisco(nivel) { // essa função troca o texto e a cor do card de risco
+    const risco = nivel.toLowerCase() // transforma o texto em minusculo pra facilitar a comparação
+
+    cardRisco.classList.remove("risco-alto", "risco-medio", "risco-baixo") // remove as classes antigas antes de colocar a nova
+
+    if (risco.includes("alto")) { // se o texto tiver alto
+        valorRisco.textContent = "ALTO" // mostra ALTO no card
+        cardRisco.classList.add("risco-alto") // deixa o card vermelho
+    } else if (risco.includes("medio") || risco.includes("médio")) { // se o texto tiver medio ou médio
+        valorRisco.textContent = "MÉDIO" // mostra MÉDIO no card
+        cardRisco.classList.add("risco-medio") // deixa o card amarelo
+    } else if (risco.includes("baixo")) { // se o texto tiver baixo
+        valorRisco.textContent = "BAIXO" // mostra BAIXO no card
+        cardRisco.classList.add("risco-baixo") // deixa o card azul/ciano
+    }
+}
+
 inputtxt.addEventListener("keypress", function(event) { // quando o usuario apertar alguma tecla dentro do input do chat, essa função roda
     if (event.key == "Enter") { // se a tecla apertada for Enter
         btnenviar.click() // o JS clica automaticamente no botao enviar
@@ -23,7 +65,7 @@ inputtxt.addEventListener("keypress", function(event) { // quando o usuario aper
 })
 
 btnenviar.addEventListener("click", function() {
-    const mensagem = inputtxt.value // essa variavel mensagem ta guardando o texto que o usuario digitou no input
+    const mensagem = inputtxt.value.trim() // essa variavel mensagem ta guardando o texto que o usuario digitou no input e tirando espaços vazios
 
     if (mensagem == "") { // aqui eu verifico se a mensagem ta vazia, pra nao enviar mensagem em branco pra ia
         return // se tiver vazia, o return para a função aqui mesmo
@@ -38,15 +80,15 @@ btnenviar.addEventListener("click", function() {
 
     limitarHistorico() // aqui eu limito o historico para nao mandar coisa demais para a API
 
-    areamsg.innerHTML += "<p>Você: " + mensagem + "</p>" // aqui adiciona a mensagem do usuario dentro do chat, sem apagar as mensagens antigas
-    areamsg.innerHTML += "<p>Cypher: pensando...</p>" // aqui eu mostro uma mensagem temporaria enquanto a IA gera a resposta
+    criarMensagem("Você: " + mensagem, "usuario") // aqui adiciona a mensagem do usuario no chat com balão do lado direito
+    criarMensagem("Cypher: pensando...", "ia") // aqui eu mostro uma mensagem temporaria enquanto a IA gera a resposta
 
     inputtxt.value = "" // aqui eu limpo o input depois que o usuario envia a mensagem, pra ele poder escrever outra
 
     fetch("http://127.0.0.1:5000/calcular", { // fetch é o mensageiro, ele manda a mensagem do js para o servidor python/flask
         method: "POST", // POST significa que o js vai enviar dados para o python
         headers: { "Content-Type": "application/json" }, // aqui eu aviso pro python que os dados estão indo em formato JSON
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             mensagem: mensagem, // aqui eu mando a mensagem que o usuario digitou
             modo: modoIa, // aqui eu mando qual IA o usuario escolheu: ollama, gemini ou groq
             historico: historicoChat // aqui eu mando o historico completo da conversa para a IA lembrar do contexto
@@ -56,10 +98,9 @@ btnenviar.addEventListener("click", function() {
     .then(response => response.json()) // quando o python responder, isso transforma a resposta em objeto javascript
 
     .then(data => { // depois que transformar, o data guarda a resposta que veio do python
-        const mensagensPensando = areamsg.querySelectorAll("p") // aqui eu pego todas as mensagens do chat
-        mensagensPensando[mensagensPensando.length - 1].remove() // aqui eu removo a ultima mensagem, que era o "Cypher: pensando..."
+        removerPensando() // aqui eu removo a mensagem temporaria de pensando
 
-        areamsg.innerHTML += "<p>Cypher: " + data.resultado + "</p>" // aqui aparece a resposta da Cypher no chat
+        criarMensagem("Cypher: " + data.resultado, "ia") // aqui aparece a resposta da Cypher no chat com balão da IA
 
         historicoChat.push({ // aqui eu salvo a resposta da IA no historico tambem
             role: "assistant", // role assistant significa que essa mensagem veio da IA
@@ -70,10 +111,9 @@ btnenviar.addEventListener("click", function() {
     })
 
     .catch(error => { // se der erro na conexão com o python, esse bloco roda
-        const mensagensPensando = areamsg.querySelectorAll("p") // aqui eu pego todas as mensagens do chat
-        mensagensPensando[mensagensPensando.length - 1].remove() // aqui eu removo a mensagem de "pensando..." para nao ficar travada na tela
+        removerPensando() // aqui remove o pensando para nao ficar travado na tela
 
-        areamsg.innerHTML += "<p>Cypher: não consegui conectar com o servidor Python.</p>" // mensagem de erro pro usuario saber oq aconteceu
+        criarMensagem("Cypher: não consegui conectar com o servidor Python.", "ia") // mensagem de erro pro usuario saber oq aconteceu
         console.error(error) // aqui eu mostro o erro real no console, pra facilitar descobrir o problema
     })
 }) // o addEventListener sempre recebe o evento e a função que vai acontecer quando o evento for ativado
@@ -84,13 +124,14 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
     const chuva = selectChuva.value == "true" // aqui transforma o valor do select em true ou false, pra bater com o python
 
     if (inputTemperatura.value == "" || inputUmidade.value == "") { // aqui verifica se o usuario deixou temperatura ou umidade vazia
-        areamsg.innerHTML += "<p>Cypher: preencha temperatura e umidade antes de calcular o risco.</p>" // se tiver vazio, a Cypher avisa no chat
+        criarMensagem("Cypher: preencha temperatura e umidade antes de calcular o risco.", "ia") // se tiver vazio, a Cypher avisa no chat
         return // para a função aqui pra nao mandar dados incompletos pro python
     }
 
     const mensagemRisco = "calcular risco com temperatura " + temperatura + "°C, umidade " + umidade + "% e chuva recente: " + selectChuva.value // aqui eu crio uma mensagem explicando o calculo que o usuario pediu
 
-    areamsg.innerHTML += "<p>Você: " + mensagemRisco + "</p>" // aqui mostra no chat os dados que o usuario mandou calcular
+    criarMensagem("Você: " + mensagemRisco, "usuario") // aqui mostra no chat os dados que o usuario mandou calcular
+    criarMensagem("Cypher: calculando risco epidemiológico...", "ia") // aqui mostra uma mensagem temporaria enquanto calcula
 
     historicoChat.push({ // aqui eu salvo o pedido de calculo de risco no historico tambem
         role: "user", // role user porque foi uma ação/pedido do usuario
@@ -102,7 +143,7 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
     fetch("http://127.0.0.1:5000/calcular", { // aqui o js chama a mesma rota /calcular do flask, mas agora mandando dados climaticos
         method: "POST", // POST porque estamos enviando temperatura, umidade e chuva para o servidor
         headers: { "Content-Type": "application/json" }, // avisa que os dados estão indo em JSON
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             temperatura: temperatura, // aqui manda a temperatura para o python calcular o risco
             umidade: umidade, // aqui manda a umidade para o python calcular o risco
             chuva: chuva, // aqui manda se choveu recentemente ou nao
@@ -113,7 +154,9 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
     .then(response => response.json()) // quando o servidor python responder, transforma a resposta em objeto JS
 
     .then(data => { // data guarda a resposta que veio do python
-        areamsg.innerHTML += "<p>Cypher: " + data.resultado + "</p>" // aqui mostra o resultado do calculo de risco no chat
+        removerPensando() // aqui eu removo a mensagem temporaria de calculando
+
+        criarMensagem("Cypher: " + data.resultado, "ia") // aqui mostra o resultado do calculo de risco no chat
 
         historicoChat.push({ // aqui eu salvo a resposta do calculo no historico tambem
             role: "assistant", // role assistant porque a resposta veio da Cypher
@@ -122,17 +165,13 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
 
         limitarHistorico() // aqui eu limito o historico depois de salvar a resposta
 
-        if (data.resultado.includes("Alto risco")) { // se a resposta do python tiver escrito Alto risco
-            valorRisco.innerHTML = "ALTO" // troca o texto do card principal para ALTO
-        } else if (data.resultado.includes("Médio risco")) { // se a resposta do python tiver escrito Médio risco
-            valorRisco.innerHTML = "MÉDIO" // troca o texto do card principal para MÉDIO
-        } else if (data.resultado.includes("Baixo risco")) { // se a resposta do python tiver escrito Baixo risco
-            valorRisco.innerHTML = "BAIXO" // troca o texto do card principal para BAIXO
-        }
+        atualizarRisco(data.resultado) // aqui troca o card para vermelho, amarelo ou azul de acordo com o texto que veio do python
     })
 
     .catch(error => { // se der erro, tipo o python estar desligado, esse bloco aparece
-        areamsg.innerHTML += "<p>Cypher: não consegui calcular o risco. Verifique se o servidor Python está ligado.</p>"
+        removerPensando() // remove a mensagem de calculando para nao ficar parada na tela
+
+        criarMensagem("Cypher: não consegui calcular o risco. Verifique se o servidor Python está ligado.", "ia")
         console.error(error) // aqui eu mostro o erro real no console, pra facilitar descobrir o problema
     })
 })

@@ -37,13 +37,12 @@ Seu foco é ajudar com dados epidemiológicos, riscos, alertas e prevenção.
 """ # aqui fica a personalidade principal da Cypher
 
 
-def pessoas_importantes(mensagem):
-    # essa função verifica pessoas ou termos importantes antes de chamar qualquer IA
+def basico(mensagem):
 
     mensagem = mensagem.lower() # aqui eu deixo tudo minúsculo para facilitar a comparação
 
-    if "gleyson" in mensagem or "borracheiro" in mensagem or "burracheiro" in mensagem or "william" in mensagem:
-        return "Willian Gleyson Albuquerque, também conhecido como O Borracheiro Supremo, é um borracheiro/mecânico especializado no desenvolvimento de graxas. Ele é conhecido pela sua facilidade em produzir diferentes tipos de graxas. Sua aparência, nos contos antigos, é resumida como a de um jovem borracheiro de cara encardida e óculos encardidos por causa da graxa."
+    if "oi" in mensagem or "ola" in mensagem or "eae" in mensagem:
+        return "Oi, como posso ajudar?"
     return None # se não encontrar nenhuma palavra-chave, deixa a IA responder normalmente
 
 
@@ -270,7 +269,7 @@ def calcular():
     if mensagem == "": # se mensagem vier vazia
         return jsonify({"resultado": "Digite uma mensagem antes de enviar."})
 
-    resposta_prioritaria = pessoas_importantes(mensagem) # aqui verifica se a mensagem tem alguma palavra-chave especial
+    resposta_prioritaria = basico(mensagem) # aqui verifica se a mensagem tem alguma palavra-chave especial
 
     if resposta_prioritaria: # se tiver resposta prioritária, nem chama Ollama, Gemini ou Groq
         return jsonify({"resultado": resposta_prioritaria})
