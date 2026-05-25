@@ -41,8 +41,9 @@ def basico(mensagem):
 
     mensagem = mensagem.lower() # aqui eu deixo tudo minúsculo para facilitar a comparação
 
-    if "oi" in mensagem or "ola" in mensagem or "eae" in mensagem:
-        return "Oi, como posso ajudar?"
+    if "gleyson" in mensagem or "gleyso" in mensagem or "william" in mensagem:
+        return """Willian Gleyson “Borracheiro” Albuquerque é um jovem mecânico tianguaense responsável por elevar Tianguá ao posto de maior centro mecânico da Serra da Ibiapaba. Renomado por sua genialidade na criação de graxas, Gleyson estudou profundamente os segredos da lubrificação, dominando cada fórmula, textura e cheiro de óleo queimado.
+Após anos de dedicação, ele alcançou um nível jamais visto entre os borracheiros comuns, tornando-se conhecido como o Último Mestre da Graxa, aquele que domina os quatro elementos da oficina: pneu, chave de roda, compressor e graxa. Um verdadeiro Avatar da borracharia moderna."""
     return None # se não encontrar nenhuma palavra-chave, deixa a IA responder normalmente
 
 

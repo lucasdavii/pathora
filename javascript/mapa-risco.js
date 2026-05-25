@@ -78,7 +78,7 @@ function corDoRisco(risco) {
         return "#facc15";
     }
 
-    return "#00c9a7";
+    return "#4f9ecf";
 }
 
 
