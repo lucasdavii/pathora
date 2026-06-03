@@ -74,6 +74,14 @@
                 </div>
                 <button class="btn-calcular-risco">Calcular risco</button> <!--botao que o usuario clica para enviar os dados climaticos para a Cypher-->
             </div>
+
+            <div class="historico-analises"> <!--card onde aparecem as analises antigas salvas no firebase-->
+                <h2>Histórico de análises</h2> <!--titulo do historico-->
+                <div class="lista-historico"> <!--essa div vai ser preenchida pelo javascript com os dados do firestore-->
+                    <p class="historico-vazio">Nenhuma análise salva ainda.</p> <!--mensagem padrão antes de carregar as analises-->
+                </div>
+            </div>
+
             <div class="grafico"> <!--card que mostra o risco separado por doença-->
                 <h2>Risco por Doença</h2>
                 <span>Dengue</span>       <!--cada span e uma doença monitorada-->
@@ -99,6 +107,6 @@
             <span>v1.0</span>       <!--versao do sistema-->
         </div>
     </footer>
-    <script src="/javascript/script_ia.js"></script>
+    <script type="module" src="/javascript/script_ia.js"></script>
 </body>
 </html>

@@ -1,3 +1,18 @@
+import { auth, db } from "./firebase.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+    collection,
+    addDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
 const btnenviar = document.querySelector(".btn-enviar") // aqui vou ta criando uma variavel fixa pro botao q vou usar para enviar a msg no chat
 const inputtxt = document.querySelector(".chat-input input") // aqui vou ta criando a variavel fixa pro input q vou digitar a mensagem para enviar para a ia
 const areamsg = document.querySelector(".chat-msg") // aqui vou ta criando a variavel fixa para a area das mensagens, onde vai acontecer a interação entre o usuario e ia
@@ -8,8 +23,18 @@ const inputTemperatura = document.querySelector("#temperatura") // aqui vou ta p
 const inputUmidade = document.querySelector("#umidade") // aqui vou ta pegando o input onde o usuario digita a umidade
 const selectChuva = document.querySelector("#chuva") // aqui vou ta pegando o select onde o usuario escolhe se choveu recentemente ou nao
 const selectModoIa = document.querySelector("#modo-ia") // aqui vou ta pegando o select onde o usuario escolhe qual IA vai responder: ollama, gemini ou groq
+const areaHistorico = document.querySelector(".lista-historico") // aqui pego a area onde o historico das analises vai aparecer
 
 let historicoChat = [] // aqui vou guardar o historico da conversa, para ollama, gemini e groq lembrarem do contexto
+let usuarioLogado = null // aqui vou guardar o usuario que esta logado no Firebase
+
+onAuthStateChanged(auth, function(usuario) {
+    usuarioLogado = usuario // quando o Firebase confirmar o login, eu salvo o usuario aqui
+
+    if (usuarioLogado) {
+        carregarHistorico() // se tiver usuario logado, ja carrega as analises antigas dele
+    }
+})
 
 function limitarHistorico() { // essa função serve para o historico nao ficar gigante e pesado com muitas mensagens
     if (historicoChat.length > 20) { // se tiver mais de 20 mensagens salvas
@@ -32,11 +57,11 @@ function criarMensagem(texto, tipo) { // essa função cria uma mensagem no chat
     areamsg.scrollTop = areamsg.scrollHeight // aqui o chat desce automaticamente para a ultima mensagem
 }
 
-function removerPensando() { // essa função remove a ultima mensagem de pensando da IA
+function removerPensando() { // essa função remove a ultima mensagem temporaria da IA
     const mensagens = areamsg.querySelectorAll("p") // aqui eu pego todas as mensagens que existem no chat
     const ultimaMensagem = mensagens[mensagens.length - 1] // aqui eu pego a ultima mensagem da lista
 
-    if (ultimaMensagem && ultimaMensagem.textContent.includes("pensando")) { // se existir ultima mensagem e ela tiver pensando no texto
+    if (ultimaMensagem && (ultimaMensagem.textContent.includes("pensando") || ultimaMensagem.textContent.includes("calculando"))) {
         ultimaMensagem.remove() // remove a mensagem temporaria da tela
     }
 }
@@ -55,6 +80,79 @@ function atualizarRisco(nivel) { // essa função troca o texto e a cor do card 
     } else if (risco.includes("baixo")) { // se o texto tiver baixo
         valorRisco.textContent = "BAIXO" // mostra BAIXO no card
         cardRisco.classList.add("risco-baixo") // deixa o card azul/ciano
+    }
+}
+
+async function salvarAnaliseNoFirebase(temperatura, umidade, chuva, resultado) {
+    if (!usuarioLogado) { // se nao tiver usuario logado, nao tem como salvar no documento certo
+        criarMensagem("Cypher: faça login para salvar o histórico da análise.", "ia")
+        return
+    }
+
+    try {
+        // aqui eu salvo a analise dentro do usuario logado
+        // caminho: usuarios / uidDoUsuario / analises / idAutomatico
+        await addDoc(collection(db, "usuarios", usuarioLogado.uid, "analises"), {
+            cidade: "Tianguá-CE",
+            doenca: "Dengue",
+            temperatura: temperatura,
+            umidade: umidade,
+            chuva: chuva,
+            resultado: resultado,
+            criadoEm: serverTimestamp()
+        })
+
+        console.log("Análise salva no Firestore com sucesso.")
+
+        carregarHistorico() // depois de salvar, atualiza o historico na tela
+
+    } catch (erro) {
+        console.error("Erro ao salvar análise no Firestore:", erro)
+        criarMensagem("Cypher: calculei o risco, mas não consegui salvar no histórico.", "ia")
+    }
+}
+
+async function carregarHistorico() {
+    if (!usuarioLogado || !areaHistorico) { // se nao tiver usuario logado ou se a area do historico nao existir no HTML, para aqui
+        return
+    }
+
+    try {
+        const consulta = query(
+            collection(db, "usuarios", usuarioLogado.uid, "analises"),
+            orderBy("criadoEm", "desc")
+        )
+
+        const resultados = await getDocs(consulta)
+
+        areaHistorico.innerHTML = ""
+
+        if (resultados.empty) {
+            areaHistorico.innerHTML = '<p class="historico-vazio">Nenhuma análise salva ainda.</p>'
+            return
+        }
+
+        resultados.forEach(function(documento) {
+            const analise = documento.data()
+
+            areaHistorico.innerHTML += `
+                <div class="card-historico">
+                    <h3>${analise.doenca || "Análise epidemiológica"}</h3>
+                    <p><strong>Cidade:</strong> ${analise.cidade || "Não informada"}</p>
+                    <p><strong>Temperatura:</strong> ${analise.temperatura}°C</p>
+                    <p><strong>Umidade:</strong> ${analise.umidade}%</p>
+                    <p><strong>Chuva recente:</strong> ${analise.chuva ? "Sim" : "Não"}</p>
+                    <p><strong>Resultado:</strong> ${analise.resultado}</p>
+                </div>
+            `
+        })
+
+    } catch (erro) {
+        console.error("Erro ao carregar histórico:", erro)
+
+        if (areaHistorico) {
+            areaHistorico.innerHTML = '<p class="historico-vazio">Não foi possível carregar o histórico.</p>'
+        }
     }
 }
 
@@ -153,7 +251,7 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
 
     .then(response => response.json()) // quando o servidor python responder, transforma a resposta em objeto JS
 
-    .then(data => { // data guarda a resposta que veio do python
+    .then(async data => { // data guarda a resposta que veio do python
         removerPensando() // aqui eu removo a mensagem temporaria de calculando
 
         criarMensagem("Cypher: " + data.resultado, "ia") // aqui mostra o resultado do calculo de risco no chat
@@ -166,6 +264,8 @@ btnCalcularRisco.addEventListener("click", function() { // quando o usuario clic
         limitarHistorico() // aqui eu limito o historico depois de salvar a resposta
 
         atualizarRisco(data.resultado) // aqui troca o card para vermelho, amarelo ou azul de acordo com o texto que veio do python
+
+        await salvarAnaliseNoFirebase(temperatura, umidade, chuva, data.resultado) // aqui salvo a analise no Firestore
     })
 
     .catch(error => { // se der erro, tipo o python estar desligado, esse bloco aparece
