@@ -110,12 +110,28 @@ regioes.forEach((regiao) => {
     })
     .addTo(mapa)
     .bindPopup(`
-        <div class="popup-risco">
-            <h3>${regiao.nome}</h3>
-            <p><strong>${nomeDoRisco(risco)}</strong></p>
-            <p>Temperatura: ${regiao.temperatura}°C</p>
-            <p>Umidade: ${regiao.umidade}%</p>
-            <p>Chuva recente: ${regiao.chuva ? "Sim" : "Não"}</p>
+        <div class="popup-risco popup-${risco}">
+            <div class="popup-topo">
+                <span class="popup-tag">${nomeDoRisco(risco)}</span>
+                <strong>${regiao.nome}</strong>
+            </div>
+
+            <div class="popup-dados">
+                <div>
+                    <span>Temperatura</span>
+                    <strong>${regiao.temperatura}°C</strong>
+                </div>
+                <div>
+                    <span>Umidade</span>
+                    <strong>${regiao.umidade}%</strong>
+                </div>
+                <div>
+                    <span>Chuva recente</span>
+                    <strong>${regiao.chuva ? "Sim" : "Não"}</strong>
+                </div>
+            </div>
+
+            <p class="popup-observacao">Classificação calculada pela combinação de temperatura, umidade e chuva recente.</p>
         </div>
     `);
 });

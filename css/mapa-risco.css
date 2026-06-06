@@ -1,32 +1,63 @@
-/*body */
+/*
+    Pathora - Mapa de Risco
+    CSS da página do mapa interativo.
+    O objetivo é fazer o Leaflet parecer integrado ao sistema, não jogado na tela.
+*/
 
+/* Variáveis globais: paleta, sombras e cores de risco usadas na página. */
+:root {
+    --fundo: #040916;
+    --painel: #0d1b2f;
+    --painel-2: #112240;
+    --borda: rgba(121, 154, 196, 0.2);
+    --texto: #f8fafc;
+    --texto-fraco: #9aa8bd;
+    --verde: #14d6c2;
+    --azul: #38bdf8;
+    --amarelo: #f59e0b;
+    --vermelho: #ef4444;
+    --sombra: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+
+/* Reset simples para evitar espaçamentos e medidas quebradas entre navegadores. */
 * {
     box-sizing: border-box;
 }
 
+/* Fundo geral da página e tipografia base. */
 body {
     margin: 0;
     min-height: 100vh;
-
     font-family: Arial, Helvetica, sans-serif;
-    background: #0a1628;
-    color: #fff;
+    color: var(--texto);
+    background:
+        radial-gradient(circle at top left, rgba(20, 214, 194, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.09), transparent 35%),
+        linear-gradient(135deg, #030712, #071120 55%, #050b16);
 }
 
-/*header */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.027) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.027) 1px, transparent 1px);
+    background-size: 74px 74px;
+    opacity: 0.42;
+}
 
 .topo-mapa {
-    height: 78px;
+    min-height: 78px;
     padding: 0 2rem;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background: rgba(10, 22, 40, 0.96);
-    border-bottom: 1px solid #1e3a5f;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    gap: 1rem;
+    background: rgba(7, 16, 31, 0.88);
+    border-bottom: 1px solid rgba(121, 154, 196, 0.16);
+    backdrop-filter: blur(16px);
 }
 
 .logo {
@@ -39,12 +70,13 @@ body {
     height: 45px;
     width: auto;
     display: block;
+    filter: drop-shadow(0 0 10px rgba(20, 214, 194, 0.22));
 }
 
 .logo span {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--texto);
 }
 
 .header-direita {
@@ -53,134 +85,172 @@ body {
     gap: 1rem;
 }
 
-/* main menu em formato pill */
+/* Navegação principal em formato pill. */
 .nav-links {
     display: flex;
     align-items: center;
     gap: 0.35rem;
-
-    background: rgba(17, 34, 64, 0.78);
-    border: 1px solid #1e3a5f;
+    background: rgba(17, 34, 64, 0.56);
+    border: 1px solid rgba(121, 154, 196, 0.14);
     border-radius: 999px;
-
     padding: 6px;
 }
 
 .nav-links a {
-    color: #9fb0c6;
+    color: var(--texto-fraco);
     text-decoration: none;
-    font-size: 0.92rem;
-    font-weight: 600;
-
+    font-size: 0.9rem;
+    font-weight: 700;
     padding: 10px 14px;
     border-radius: 999px;
-
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 }
 
 .nav-links a:hover {
-    color: #fff;
-    background: rgba(0, 201, 167, 0.08);
+    color: var(--texto);
+    background: rgba(20, 214, 194, 0.09);
 }
 
-/* botão cta separado */
 .btn-voltar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    background: linear-gradient(135deg, #00c9a7, #00b596);
+    background: linear-gradient(135deg, var(--verde), #00a88f);
     color: #06101e;
     text-decoration: none;
-
     padding: 11px 18px;
-    border-radius: 12px;
-
+    border-radius: 13px;
     font-size: 0.92rem;
-    font-weight: 800;
-
-    border: 1px solid rgba(0, 201, 167, 0.35);
-
-    box-shadow: 0 12px 28px rgba(0, 201, 167, 0.18);
-    transition: 0.3s ease;
+    font-weight: 900;
+    border: none;
+    box-shadow: 0 14px 32px rgba(20, 214, 194, 0.18);
+    transition: 0.25s ease;
 }
 
 .btn-voltar:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 34px rgba(0, 201, 167, 0.24);
+    box-shadow: 0 18px 38px rgba(20, 214, 194, 0.26);
 }
-
-/* pagina do mapa= */
 
 .mapa-page {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 78px);
     padding: 2rem;
-
     display: grid;
     grid-template-columns: 360px 1fr;
-    gap: 2rem;
-
-    background:
-        radial-gradient(circle at top left, rgba(0, 201, 167, 0.18), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(30, 58, 95, 0.45), transparent 35%),
-        #0a1628;
+    gap: 1.5rem;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
-/* painel de informaçoes */
+.mapa-info,
+.mapa-container,
+.painel-dados {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(20, 214, 194, 0.11), transparent 36%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.96), rgba(5, 12, 24, 0.96));
+    border: 1px solid var(--borda);
+    border-radius: 24px;
+    box-shadow: var(--sombra);
+}
+
+.mapa-info::before,
+.mapa-container::before,
+.painel-dados::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.027) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.027) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.42;
+    pointer-events: none;
+}
 
 .mapa-info {
-    background: linear-gradient(180deg, #112240, #0a1628);
-    border: 1px solid #1e3a5f;
-    border-radius: 24px;
-
-    padding: 2rem;
+    padding: 1.5rem;
     height: fit-content;
-
-    box-shadow: 0 20px 60px rgba(0, 201, 167, 0.08);
 }
 
-.mapa-info > span {
+.mapa-info > * {
+    position: relative;
+    z-index: 1;
+}
+
+.tag-mapa {
     display: inline-block;
-
-    color: #00c9a7;
-    background: rgba(0, 201, 167, 0.08);
-    border: 1px solid #1e3a5f;
-
+    color: var(--verde);
+    background: rgba(20, 214, 194, 0.075);
+    border: 1px solid rgba(20, 214, 194, 0.22);
     padding: 8px 14px;
     border-radius: 999px;
-
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .mapa-info h1 {
-    margin: 1.5rem 0 1rem;
-
-    font-size: 2rem;
-    line-height: 1.1;
+    margin: 1.4rem 0 1rem;
+    font-size: 2.25rem;
+    line-height: 1.05;
+    letter-spacing: -1px;
 }
 
 .mapa-info p {
-    color: #8892a4;
+    color: var(--texto-fraco);
     line-height: 1.7;
 }
 
-/* legenda */
+.resumo-mapa {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.4rem 0;
+}
+
+.resumo-mapa div {
+    padding: 1rem;
+    border-radius: 18px;
+    background: rgba(148, 163, 184, 0.045);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.resumo-mapa svg {
+    width: 22px;
+    height: 22px;
+    color: var(--verde);
+    margin-bottom: 0.8rem;
+}
+
+.resumo-mapa strong {
+    display: block;
+    color: var(--texto);
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
+}
+
+.resumo-mapa span {
+    color: var(--texto-fraco);
+    font-size: 0.8rem;
+}
 
 .legenda {
-    margin-top: 2rem;
-
+    margin-top: 1.4rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 
 .legenda div {
     display: flex;
     align-items: center;
     gap: 10px;
-
     color: #d7dee9;
+    padding: 0.8rem;
+    border-radius: 14px;
+    background: rgba(148, 163, 184, 0.045);
+    border: 1px solid rgba(148, 163, 184, 0.13);
 }
 
 .bolinha {
@@ -190,32 +260,36 @@ body {
     display: inline-block;
 }
 
-.baixo {
-    background: #4f9ecf;
-}
-
-.medio {
-    background: #facc15;
-}
-
-.alto {
-    background: #ef4444;
-}
-
-/* painel de dados */
+.baixo { background: var(--azul); box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.08); }
+.medio { background: var(--amarelo); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.08); }
+.alto { background: var(--vermelho); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.08); }
 
 .painel-dados {
-    margin-top: 2rem;
-
-    background: rgba(10, 22, 40, 0.7);
-    border: 1px solid #1e3a5f;
-    border-radius: 16px;
-
+    margin-top: 1.4rem;
     padding: 1rem;
+    box-shadow: none;
 }
 
-.painel-dados h2 {
-    margin: 0 0 0.7rem;
+.painel-dados > * {
+    position: relative;
+    z-index: 1;
+}
+
+.box-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+}
+
+.box-titulo svg {
+    width: 22px;
+    height: 22px;
+    color: var(--verde);
+}
+
+.box-titulo h2 {
+    margin: 0;
     font-size: 1rem;
 }
 
@@ -224,42 +298,217 @@ body {
     font-size: 0.9rem;
 }
 
-/* mapa */
-
 .mapa-container {
-    border: 1px solid #1e3a5f;
-    border-radius: 24px;
-
-    overflow: hidden;
-
-    background: #112240;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    min-height: 640px;
 }
 
 #mapa {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: calc(100vh - 140px);
-    min-height: 560px;
+    min-height: 640px;
+    filter: saturate(0.82) contrast(0.96) brightness(0.92);
 }
 
-/* popup do mapa */
+.mapa-overlay {
+    position: absolute;
+    z-index: 500;
+    display: flex;
+    gap: 0.8rem;
+    background: rgba(5, 12, 24, 0.78);
+    border: 1px solid rgba(121, 154, 196, 0.18);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+}
 
+.mapa-overlay.topo {
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    padding: 0.8rem;
+    justify-content: space-between;
+}
+
+.mapa-overlay.topo div {
+    min-width: 0;
+}
+
+.mapa-overlay span {
+    display: block;
+    color: var(--texto-fraco);
+    font-size: 0.72rem;
+    margin-bottom: 0.25rem;
+}
+
+.mapa-overlay strong {
+    color: var(--texto);
+    font-size: 0.9rem;
+}
+
+.baixo-overlay {
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    padding: 0.45rem;
+}
+
+.baixo-overlay button {
+    border: none;
+    background: transparent;
+    color: var(--texto-fraco);
+    font-weight: 900;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.baixo-overlay button.ativo,
+.baixo-overlay button:hover {
+    color: #06101e;
+    background: var(--verde);
+}
+
+/* Popups do Leaflet: ajuste visual sem mexer no funcionamento do mapa. */
 .leaflet-popup-content-wrapper {
-    background: #112240;
-    color: #fff;
-
-    border-radius: 14px;
-    border: 1px solid #1e3a5f;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(20, 214, 194, 0.11), transparent 38%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.98), rgba(5, 12, 24, 0.98));
+    color: var(--texto);
+    border-radius: 18px;
+    border: 1px solid rgba(121, 154, 196, 0.24);
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
 }
 
 .leaflet-popup-tip {
-    background: #112240;
+    background: #0d1b2f;
+    border: 1px solid rgba(121, 154, 196, 0.14);
 }
 
-.popup-risco h3 {
-    margin: 0 0 0.5rem;
+.leaflet-popup-content {
+    min-width: 245px;
+    margin: 0;
+    padding: 0;
 }
 
-.popup-risco p {
-    margin: 0.35rem 0;
+.popup-risco {
+    padding: 1rem;
+}
+
+.popup-topo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.popup-tag {
+    width: fit-content;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--verde);
+    background: rgba(20, 214, 194, 0.08);
+    border: 1px solid rgba(20, 214, 194, 0.22);
+}
+
+.popup-alto .popup-tag {
+    color: var(--vermelho);
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.24);
+}
+
+.popup-medio .popup-tag {
+    color: var(--amarelo);
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.24);
+}
+
+.popup-baixo .popup-tag {
+    color: var(--azul);
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.24);
+}
+
+.popup-topo strong {
+    color: var(--texto);
+    font-size: 1rem;
+}
+
+.popup-dados {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0.8rem 0;
+}
+
+.popup-dados div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 12px;
+    background: rgba(148, 163, 184, 0.045);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.popup-dados span {
+    color: var(--texto-fraco);
+    font-size: 0.78rem;
+}
+
+.popup-dados strong {
+    color: var(--texto);
+    font-size: 0.82rem;
+}
+
+.popup-observacao {
+    margin: 0;
+    color: var(--texto-fraco);
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+/* Responsividade: ajustes para telas menores. */
+@media (max-width: 1000px) {
+    .topo-mapa {
+        height: auto;
+        padding: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .header-direita {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .mapa-page {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 680px) {
+    .nav-links,
+    .mapa-overlay.topo,
+    .resumo-mapa {
+        flex-direction: column;
+        grid-template-columns: 1fr;
+    }
+
+    .mapa-overlay.topo {
+        display: none;
+    }
+
+    .mapa-container,
+    #mapa {
+        min-height: 560px;
+    }
 }

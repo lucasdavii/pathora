@@ -4,71 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathora - Mapa de Risco</title>
-
-    <!-- css do leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-
-    <!-- css da page -->
     <link rel="stylesheet" href="../css/mapa-risco.css">
 </head>
 <body>
+    <!-- Header do mapa: navegação rápida para outras páginas do Pathora. -->
     <header class="topo-mapa">
-    <div class="logo">
-        <img src="../imgs/logo.png" alt="logo pathora">
-        <span>Pathora</span>
-    </div>
+        <div class="logo">
+            <img src="../imgs/logo.png" alt="logo Pathora">
+            <span>Pathora</span>
+        </div>
 
-    <div class="header-direita">
-        <nav class="nav-links">
-            <a href="index.html">Início</a>
-            <a href="modulo-ia.html">Cypher IA</a>
-            <a href="entrar.html">Entrar</a>
-        </nav>
+        <div class="header-direita">
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="modulo-ia.html">Cypher IA</a>
+                <a href="entrar.html">Entrar</a>
+            </nav>
 
-        <a href="index.html" class="btn-voltar">Voltar para início</a>
-    </div>
-</header>
+            <a href="index.html" class="btn-voltar">Voltar</a>
+        </div>
+    </header>
 
-    < class="mapa-page">
+    <!-- Página do mapa: informações de risco à esquerda e Leaflet à direita. -->
+    <main class="mapa-page">
+        <!-- Painel informativo: legenda, filtros e dados resumidos das regiões monitoradas. -->
         <section class="mapa-info">
-            <span>• Mapa interativo</span>
+            <span class="tag-mapa">• Mapa interativo</span>
             <h1>Mapa de risco epidemiológico</h1>
-            <p>
-                Visualize regiões com risco baixo, médio ou alto de surtos com base em temperatura,
-                umidade e chuva recente.
-            </p>
+            <p>Visualize regiões com risco baixo, médio ou alto com base em temperatura, umidade e chuva recente.</p>
 
-            <div class="legenda">
+            <div class="resumo-mapa">
                 <div>
-                    <span class="bolinha baixo"></span>
-                    Baixo risco
+                    <i data-lucide="map-pin"></i>
+                    <strong>4</strong>
+                    <span>regiões</span>
                 </div>
-
                 <div>
-                    <span class="bolinha medio"></span>
-                    Médio risco
-                </div>
-
-                <div>
-                    <span class="bolinha alto"></span>
-                    Alto risco
+                    <i data-lucide="siren"></i>
+                    <strong>1</strong>
+                    <span>alerta alto</span>
                 </div>
             </div>
 
+            <div class="legenda">
+                <div><span class="bolinha baixo"></span>Baixo risco</div>
+                <div><span class="bolinha medio"></span>Médio risco</div>
+                <div><span class="bolinha alto"></span>Alto risco</div>
+            </div>
+
             <div class="painel-dados">
-                <h2>Regiões monitoradas</h2>
+                <div class="box-titulo">
+                    <i data-lucide="activity"></i>
+                    <h2>Regiões monitoradas</h2>
+                </div>
                 <p>Tianguá, Sobral, Fortaleza e Juazeiro do Norte.</p>
             </div>
         </section>
 
+        <!-- Container do Leaflet: o id="mapa" precisa ser mantido porque o JavaScript usa ele. -->
         <section class="mapa-container">
+            <div class="mapa-overlay topo">
+                <div>
+                    <span>Camada ativa</span>
+                    <strong>Dengue · últimos 7 dias</strong>
+                </div>
+                <div>
+                    <span>Última leitura</span>
+                    <strong>Hoje · 01:20</strong>
+                </div>
+                <div>
+                    <span>Tendência</span>
+                    <strong>Risco subindo</strong>
+                </div>
+            </div>
+
             <div id="mapa"></div>
+
+            <div class="mapa-overlay baixo-overlay">
+                <button>Baixo</button>
+                <button class="ativo">Médio</button>
+                <button>Alto</button>
+            </div>
         </section>
+    </main>
 
-    <!-- js do leaflet -->
+    <!-- Leaflet: biblioteca que cria o mapa interativo. -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <!-- js do mapa -->
+    <!-- Lucide Icons: ícones SVG dos cards e filtros do mapa. -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
     <script src="../javascript/mapa-risco.js"></script>
 </body>
 </html>

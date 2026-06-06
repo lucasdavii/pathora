@@ -1,671 +1,636 @@
-/* 
-css do cypher ai
+/*
+    Pathora - Cypher IA
+    CSS da central de análise.
+    Mantém o chat, o cálculo de risco e os cards laterais com aparência de dashboard operacional.
 */
 
+:root {
+    --fundo: #040916;
+    --fundo-2: #071120;
+    --painel: #0d1b2f;
+    --painel-2: #112240;
+    --borda: rgba(121, 154, 196, 0.2);
+    --texto: #f8fafc;
+    --texto-fraco: #9aa8bd;
+    --texto-chat: #d7dee9;
+    --verde: #14d6c2;
+    --verde-2: #00a88f;
+    --azul: #38bdf8;
+    --alto: #ef4444;
+    --medio: #f59e0b;
+    --baixo: #38bdf8;
+    --sombra: 0 22px 70px rgba(0, 0, 0, 0.34);
+}
+
 * {
-    box-sizing: border-box; /* faz padding e borda entrarem no cálculo do tamanho */
+    box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth; /* rolagem suave no scroll do mouse*/
-}
-
-:root {
-    --fundo: #0a1628;
-    --painel: #112240;
-    --painel-escuro: #081426;
-    --borda: #1e3a5f;
-
-    --texto: #ffffff;
-    --texto-fraco: #8892a4;
-    --texto-chat: #d7dee9;
-
-    --destaque: #00a88f;
-    --destaque-hover: #008f7a;
-
-    --alto: #d94b5c;
-    --medio: #d6a93a;
-    --baixo: #4f9ecf;
+    scroll-behavior: smooth;
 }
 
 body {
-    background:
-    radial-gradient(circle at top left, rgba(0, 168, 143, 0.08), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(79, 158, 207, 0.07), transparent 32%),
-    var(--fundo); /* fundo escuro principal com brilho leve */
-    margin: 0; /* remove margem padrao do navegador */
+    margin: 0;
+    min-height: 100vh;
     color: var(--texto);
     font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(20, 214, 194, 0.11), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.08), transparent 32%),
+        linear-gradient(135deg, #030712, #071120 55%, #050b16);
 }
 
-/* header tropinha */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.027) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.027) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.44;
+}
 
 header {
-    display: flex; /* deixa tudo na msm linha */
-    align-items: center; /* centraliza tudo verticalmente */
-    justify-content: space-between; /* espalha os elementos pelo header */
-    gap: 1.5rem; /* espaço entre os elementos */
-
-    height: 70px; /* altura do menu */
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    min-height: 72px;
     padding: 0 2rem;
-
-    background: rgba(10, 22, 40, 0.95); /* fundo escuro bem sólido */
-    border-bottom: 1px solid var(--borda); /* linha separando o header do conteúdo */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: rgba(7, 16, 31, 0.88);
+    border-bottom: 1px solid rgba(121, 154, 196, 0.16);
+    backdrop-filter: blur(16px);
 }
 
-/* logozinha */
-
 .logo {
-    display: flex; /* logo e texto lado a lado */
-    align-items: center; /* alinha imagem e texto no centro */
+    display: flex;
+    align-items: center;
     gap: 10px;
 }
 
 .logo img {
-    height: 45px; /* tamanho da logo */
-    width: auto; /* mantém proporçao automatica */
-    display: block; /* remove espaço estranho embaixo da imagem */
-    filter: drop-shadow(0 0 8px rgba(0, 168, 143, 0.28));
+    height: 45px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(20, 214, 194, 0.22));
 }
 
 .logo span {
     color: var(--texto);
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1;
+    font-size: 1.25rem;
+    font-weight: 900;
 }
 
-/* links de navegaçao*/
-
 .nav-links {
-    display: flex; /* coloca os links em linha */
-    gap: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 5px;
+    border-radius: 999px;
+    background: rgba(17, 34, 64, 0.56);
+    border: 1px solid rgba(121, 154, 196, 0.14);
 }
 
 .nav-links a {
-    color: var(--texto-fraco); /* cinza azulado */
-    text-decoration: none; /* remove sublinhado */
-    font-size: 0.95rem;
-    transition: 0.3s ease;
+    color: var(--texto-fraco);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 9px 13px;
+    border-radius: 999px;
+    transition: 0.25s ease;
 }
 
 .nav-links a:hover {
-    color: var(--baixo); /* azul mais calmo, combina com monitoramento */
+    color: var(--texto);
+    background: rgba(20, 214, 194, 0.09);
 }
-
-/* status e botao sair */
 
 .status {
     color: var(--texto-fraco);
-    font-size: 0.9rem;
-
-    border: 1px solid var(--borda);
-    background: rgba(0, 168, 143, 0.05);
-
-    padding: 8px 14px;
-    border-radius: 999px; /* formato de cápsula */
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid rgba(20, 214, 194, 0.2);
+    background: rgba(20, 214, 194, 0.06);
+    padding: 8px 13px;
+    border-radius: 999px;
 }
 
 .online {
-    color: var(--destaque); /* bolinha de sistema online */
+    color: var(--verde);
 }
 
 .btn-sair {
-    background: var(--destaque);
+    background: linear-gradient(135deg, var(--verde), var(--verde-2));
     border: none;
     color: #06101e;
-
-    padding: 8px 18px;
-    border-radius: 8px;
-
-    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 12px;
+    font-weight: 900;
     cursor: pointer;
-
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 }
 
 .btn-sair:hover {
-    background: var(--destaque-hover);
     transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(20, 214, 194, 0.22);
 }
-
-/* divide a tela em duas colunas e o layout principal */
 
 main {
-    min-height: calc(100vh - 130px); /* altura da tela menos header e footer */
+    min-height: calc(100vh - 132px);
     padding: 2rem;
-
     display: grid;
-    grid-template-columns: 1.4fr 1fr; /* chat maior, dashboard menor */
-    gap: 2rem;
-
-    max-width: 1400px;
-    margin: 0 auto; /* deixar centralizado */
+    grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.85fr);
+    gap: 1.5rem;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
-/* painel */
-
-.painel-chat {
-    background: linear-gradient(180deg, var(--painel), var(--fundo)); /* degrade vertical */
+.painel-chat,
+.modulo-box,
+.risco-geral {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(20, 214, 194, 0.11), transparent 36%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.96), rgba(5, 12, 24, 0.96));
     border: 1px solid var(--borda);
     border-radius: 24px;
-
-    padding: 2rem;
-    min-height: 650px;
-
-    display: flex;
-    flex-direction: column; /* header, mensagens e input em colunas*/
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+    box-shadow: var(--sombra);
 }
 
-/* cabeçalho, titulo, etc */
+.painel-chat::before,
+.modulo-box::before,
+.risco-geral::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.027) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.027) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.43;
+    pointer-events: none;
+}
+
+.painel-chat {
+    min-height: 680px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.painel-chat > *,
+.modulo-box > *,
+.risco-geral > * {
+    position: relative;
+    z-index: 1;
+}
 
 .chat-header {
-    border-bottom: 1px solid var(--borda);
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(121, 154, 196, 0.16);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.chat-header-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.tag-sistema {
+    display: inline-flex;
+    color: var(--verde);
+    background: rgba(20, 214, 194, 0.075);
+    border: 1px solid rgba(20, 214, 194, 0.22);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
 }
 
 .chat-header h1 {
-    margin: 0;
-    font-size: 2.2rem;
+    margin: 1rem 0 0.35rem;
+    font-size: clamp(2.1rem, 4vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -1.5px;
 }
 
 .chat-header h2 {
-    margin: 0.5rem 0 1rem;
+    margin: 0;
     color: var(--texto-fraco);
     font-size: 1rem;
     font-weight: 400;
+    line-height: 1.55;
 }
 
-.chat-header span {
-    display: inline-block;
-
-    color: var(--destaque);
-    border: 1px solid var(--borda);
-    background: rgba(0, 168, 143, 0.07);
-
-    padding: 7px 12px;
-    border-radius: 999px;
-
-    font-size: 0.85rem;
+.cypher-status-card {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 185px;
+    padding: 0.85rem;
+    border-radius: 18px;
+    background: rgba(20, 214, 194, 0.06);
+    border: 1px solid rgba(20, 214, 194, 0.2);
 }
 
-/* seletor do modo de ia */
+.cypher-status-card svg,
+.box-titulo svg {
+    width: 24px;
+    height: 24px;
+    color: var(--verde);
+    stroke-width: 1.8;
+}
+
+.cypher-status-card strong {
+    display: block;
+    color: var(--texto);
+    margin-bottom: 0.2rem;
+}
+
+.cypher-status-card span {
+    color: var(--texto-fraco);
+    font-size: 0.78rem;
+}
+
+.mini-contexto {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.mini-contexto div {
+    padding: 0.85rem;
+    border: 1px solid rgba(121, 154, 196, 0.15);
+    border-radius: 16px;
+    background: rgba(148, 163, 184, 0.045);
+}
+
+.mini-contexto svg {
+    width: 20px;
+    height: 20px;
+    color: var(--azul);
+    margin-bottom: 0.55rem;
+}
+
+.mini-contexto span {
+    display: block;
+    color: var(--texto-fraco);
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.mini-contexto strong {
+    color: var(--texto);
+    font-size: 0.95rem;
+}
 
 .modo-ia-box {
-    margin-top: 1rem; /* separa o seletor do status ao vivo */
-
-    display: flex; /* deixa o texto e a caixa de escolha organizados */
-    flex-direction: column; /* label em cima e select embaixo */
-    gap: 0.5rem; /* espaço entre o texto e o select */
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .modo-ia-box label {
-    color: var(--texto-fraco); /* usa o mesmo cinza azulado dos textos secundarios */
+    color: var(--texto-fraco);
     font-size: 0.9rem;
+    font-weight: 700;
 }
 
-.modo-ia-box select {
-    background: var(--fundo); /* fundo escuro igual os inputs do sistema */
-    border: 1px solid var(--borda); /* borda azul escura igual o padrão dos campos */
+.modo-ia-box select,
+.campo-risco input,
+.campo-risco select,
+.chat-input input {
+    width: 100%;
+    background: rgba(4, 9, 22, 0.88);
+    border: 1px solid rgba(121, 154, 196, 0.18);
     color: var(--texto);
-
-    padding: 10px 12px;
-    border-radius: 10px;
-
+    padding: 12px 14px;
+    border-radius: 12px;
     outline: none;
     font-size: 0.95rem;
-
-    cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 }
 
-.modo-ia-box select:focus {
-    border-color: var(--destaque); /* quando clicar no select, a borda fica destacada */
-    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
+.modo-ia-box select:focus,
+.campo-risco input:focus,
+.campo-risco select:focus,
+.chat-input input:focus {
+    border-color: rgba(20, 214, 194, 0.55);
+    box-shadow: 0 0 0 3px rgba(20, 214, 194, 0.1);
 }
-
-/* area das mensagens */
 
 .chat-msg {
-    flex: 1; /* ocupar o espaço livre dentro do painel */
-    background: rgba(5, 14, 28, 0.75);
-
-    border: 1px solid var(--borda);
-    border-radius: 16px;
-
-    padding: 1.5rem;
-    overflow-y: auto; /* cria scroll se tiver muita mensagem */
-
-    display: flex; /* permite separar mensagens em balões */
-    flex-direction: column; /* deixa cada mensagem uma embaixo da outra */
-    gap: 14px; /* espaço entre os balões */
+    flex: 1;
+    background: rgba(4, 9, 22, 0.66);
+    border: 1px solid rgba(121, 154, 196, 0.16);
+    border-radius: 20px;
+    padding: 1.2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
-
-/* estilo base de toda mensagem do chat */
 
 .chat-msg p {
     margin: 0;
     max-width: 78%;
-
     color: var(--texto-chat);
-    line-height: 1.7;
-
+    line-height: 1.65;
     padding: 13px 16px;
     border-radius: 18px;
-
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     word-wrap: break-word;
 }
 
-/* mensagem da ia, fica do lado esquerdo */
-
-.chat-msg p:first-child,
+/* Mensagem da Cypher */
 .msg-ia {
     align-self: flex-start;
-
     background: rgba(17, 34, 64, 0.95);
     border: 1px solid rgba(136, 146, 164, 0.22);
-
-    color: var(--texto-chat);
+    color: #d7dee9;
     border-bottom-left-radius: 5px;
 }
 
-/* mensagem do usuario, fica do lado direito */
-
+/* Mensagem do usuário */
 .msg-user {
     align-self: flex-end;
-
-    background: linear-gradient(135deg, #2d6d76, #0a4265);
-    color: #06101e;
-
-    font-weight: 700;
+    background:
+        radial-gradient(circle at top right, rgba(20, 214, 194, 0.20), transparent 42%),
+        linear-gradient(135deg, #0b4f4a, #073a38);
+    border: 1px solid rgba(20, 214, 194, 0.46);
+    color: #f8fafc;
+    font-weight: 800;
     border-bottom-right-radius: 5px;
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.28),
+        0 0 24px rgba(20, 214, 194, 0.08);
 }
 
-/* input do usuario*/
+.msg-user::selection,
+.msg-ia::selection {
+    background: rgba(20, 214, 194, 0.35);
+}
 
 .chat-input {
-    display: flex; /* input e botão lado a lado */
-    gap: 1rem;
-    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.85rem;
+    margin-top: 1rem;
 }
 
 .chat-input input {
-    flex: 1; /* input ocupa todo o espaço disponível */
-
-    background: var(--fundo);
-    border: 1px solid var(--borda);
-    color: var(--texto);
-
-    padding: 14px 16px;
-    border-radius: 10px;
-
-    outline: none;
-    font-size: 1rem;
-
-    transition: 0.3s ease;
-}
-
-.chat-input input:focus {
-    border-color: var(--destaque);
-    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
+    flex: 1;
 }
 
 .chat-input input::placeholder {
     color: var(--texto-fraco);
 }
 
-.btn-enviar {
-    background: var(--destaque);
+.btn-enviar,
+.btn-calcular-risco {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--verde), var(--verde-2));
     border: none;
     color: #06101e;
-
-    padding: 0 22px;
-    border-radius: 10px;
-
-    font-weight: 700;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-weight: 900;
     cursor: pointer;
-
-    transition: 0.3s ease;
+    transition: 0.25s ease;
 }
 
-.btn-enviar:hover {
-    background: var(--destaque-hover);
+.btn-enviar svg,
+.emitir-alerta svg,
+.ver-mapa svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.btn-enviar:hover,
+.btn-calcular-risco:hover {
     transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(20, 214, 194, 0.22);
 }
-
-/* painel do dashbord */
 
 .painel-dashboard {
     display: flex;
-    flex-direction: column; /* cards um embaixo do outro */
-    gap: 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
 }
-
-/* card de risco geral */
 
 .risco-geral {
-    background: radial-gradient(circle at top, rgba(79, 158, 207, 0.14), var(--painel) 45%, var(--fundo));
-    border: 1px solid var(--borda);
-    border-radius: 24px;
-
-    padding: 2rem;
-    text-align: center;
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
-
-    transition: 0.3s ease;
+    padding: 1.5rem;
+    text-align: left;
 }
 
-.risco-geral h2 {
+.risco-geral.risco-alto,
+.risco-alto {
+    background:
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.16), transparent 36%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.96), rgba(5, 12, 24, 0.96));
+    border-color: rgba(239, 68, 68, 0.32);
+}
+
+.risco-medio {
+    background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.16), transparent 36%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.96), rgba(5, 12, 24, 0.96));
+    border-color: rgba(245, 158, 11, 0.32);
+}
+
+.risco-baixo {
+    background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent 36%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.96), rgba(5, 12, 24, 0.96));
+    border-color: rgba(56, 189, 248, 0.32);
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.risco-geral h2,
+.card-topo span {
     margin: 0;
     color: var(--texto-fraco);
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
 .valor-risco {
-    margin: 1rem 0;
-
-    color: var(--baixo);
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 4px;
-
-    text-shadow: 0 0 16px rgba(79, 158, 207, 0.45);
-}
-
-.risco-geral h3 {
-    margin: 0;
-    color: var(--texto);
-    font-size: 1rem;
-}
-
-/* essas classes mudam a cor do card conforme o risco que vier do javascript */
-
-/* risco alto: vermelho mais fechado, sem ficar neon */
-
-.risco-alto {
-    background: radial-gradient(circle at top, rgba(217, 75, 92, 0.18), var(--painel) 45%, var(--fundo));
-    border-color: rgba(217, 75, 92, 0.45);
-    box-shadow: 0 20px 60px rgba(217, 75, 92, 0.08);
-}
-
-.risco-alto .valor-risco {
+    margin: 0.9rem 0 0.55rem;
     color: var(--alto);
-    text-shadow: 0 0 16px rgba(217, 75, 92, 0.42);
-}
-
-/* risco medio: amarelo mais queimado, nao aquele amarelo estourado */
-
-.risco-medio {
-    background: radial-gradient(circle at top, rgba(214, 169, 58, 0.16), var(--painel) 45%, var(--fundo));
-    border-color: rgba(214, 169, 58, 0.42);
-    box-shadow: 0 20px 60px rgba(214, 169, 58, 0.08);
+    font-size: 3.4rem;
+    font-weight: 950;
+    letter-spacing: 3px;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.33);
 }
 
 .risco-medio .valor-risco {
     color: var(--medio);
-    text-shadow: 0 0 16px rgba(214, 169, 58, 0.38);
-}
-
-/* risco baixo: azul mais calmo, pq combina com monitoramento */
-
-.risco-baixo {
-    background: radial-gradient(circle at top, rgba(79, 158, 207, 0.16), var(--painel) 45%, var(--fundo));
-    border-color: rgba(79, 158, 207, 0.42);
-    box-shadow: 0 20px 60px rgba(79, 158, 207, 0.08);
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.33);
 }
 
 .risco-baixo .valor-risco {
     color: var(--baixo);
-    text-shadow: 0 0 16px rgba(79, 158, 207, 0.38);
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.33);
 }
 
-/* area onde o usuario informa os status */
-
-.formulario-risco {
-    background: var(--painel);
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-
-    padding: 1.5rem;
-
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+.risco-geral h3 {
+    margin: 0 0 1rem;
+    color: var(--texto);
+    font-size: 1rem;
 }
 
-.formulario-risco h2 {
-    margin: 0 0 1.5rem;
+.risco-detalhes {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
-/* so pra deixar a label, input e select bonito msm */
+.risco-detalhes span {
+    color: #aebbd0;
+    font-size: 0.73rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(148, 163, 184, 0.06);
+    padding: 6px 9px;
+    border-radius: 999px;
+}
+
+.modulo-box {
+    padding: 1.25rem;
+}
+
+.box-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+.box-titulo h2 {
+    margin: 0;
+    font-size: 1.05rem;
+}
 
 .campo-risco {
     display: flex;
-    flex-direction: column; /* label em cima, campo embaixo */
-    gap: 0.5rem;
-
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 0.85rem;
 }
 
 .campo-risco label {
     color: var(--texto-fraco);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
+    font-weight: 700;
 }
-
-.campo-risco input,
-.campo-risco select {
-    background: var(--fundo);
-    border: 1px solid var(--borda);
-    color: var(--texto);
-
-    padding: 12px 14px;
-    border-radius: 10px;
-
-    outline: none;
-    font-size: 1rem;
-
-    transition: 0.3s ease;
-}
-
-.campo-risco input:focus,
-.campo-risco select:focus {
-    border-color: var(--destaque);
-    box-shadow: 0 0 0 3px rgba(0, 168, 143, 0.11);
-}
-
-/* botao calcular */
 
 .btn-calcular-risco {
     width: 100%;
-
-    margin-top: 0.5rem;
-
-    background: var(--destaque);
-    border: none;
-    color: #06101e;
-
+    margin-top: 0.35rem;
     padding: 13px;
-    border-radius: 10px;
-
-    font-weight: 800;
-    cursor: pointer;
-
-    transition: 0.3s ease;
 }
-
-.btn-calcular-risco:hover {
-    background: var(--destaque-hover);
-    transform: translateY(-2px);
-}
-
-/* lista de doença q o cypher olha */
-
-.grafico {
-    background: var(--painel);
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-
-    padding: 1.5rem;
-
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
-}
-
-.grafico h2 {
-    margin: 0 0 1rem;
-}
-
-/* aqui fica só uma lista bonita, nao um grafico */
 
 .grafico span {
     display: flex;
     align-items: center;
     gap: 10px;
-
     color: var(--texto-fraco);
-    padding: 12px 0;
-
-    border-bottom: 1px solid var(--borda);
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(121, 154, 196, 0.14);
 }
 
 .grafico span::before {
-    content: "●";
-    color: var(--baixo);
-    font-size: 0.7rem;
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--azul);
+    box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.08);
 }
 
 .grafico span:last-child {
     border-bottom: none;
 }
 
-/* botoes de emitir alerta e mapa */
-
 .acoes {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* dois botões lado a lado */
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
 .emitir-alerta,
 .ver-mapa {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
     padding: 13px;
-    border-radius: 10px;
-
+    border-radius: 12px;
     cursor: pointer;
-    font-weight: 700;
-
-    transition: 0.3s ease;
+    font-weight: 900;
+    transition: 0.25s ease;
 }
 
 .emitir-alerta {
-    background: var(--alto);
-    border: none;
-    color: #fff;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.32);
+    color: #fecaca;
 }
 
 .emitir-alerta:hover {
-    background: #c54252;
+    color: #fff;
+    background: rgba(239, 68, 68, 0.2);
     transform: translateY(-2px);
 }
 
 .ver-mapa {
-    background: transparent;
-    border: 1px solid var(--borda);
-    color: var(--texto);
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #bae6fd;
 }
 
 .ver-mapa:hover {
-    border-color: var(--baixo);
-    color: var(--baixo);
+    color: #fff;
+    background: rgba(56, 189, 248, 0.14);
     transform: translateY(-2px);
-}
-
-/* rodape com informaçoes do sistema */
-
-footer {
-    min-height: 60px;
-
-    border-top: 1px solid var(--borda);
-    padding: 1rem 2rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-
-    color: var(--texto-fraco);
-    font-size: 0.85rem;
-}
-
-.status-esq,
-.status-dir {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    flex-wrap: wrap;
-}
-
-.status-esq span:first-child {
-    color: var(--destaque);
-}
-
-/* responsividade simples pra nao quebrar em telas menores */
-
-@media (max-width: 900px) {
-    header {
-        height: auto;
-        padding: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .nav-links {
-        width: 100%;
-        justify-content: center;
-        gap: 1rem;
-    }
-
-    main {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    .chat-msg p {
-        max-width: 90%;
-    }
-
-    footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-.historico-analises {
-    background: var(--painel);
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
-}
-
-.historico-analises h2 {
-    margin: 0 0 1rem;
 }
 
 .lista-historico {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
     max-height: 260px;
     overflow-y: auto;
 }
 
 .card-historico {
-    background: var(--fundo);
-    border: 1px solid var(--borda);
-    border-radius: 14px;
+    background: rgba(4, 9, 22, 0.72);
+    border: 1px solid rgba(121, 154, 196, 0.16);
+    border-radius: 16px;
     padding: 1rem;
 }
 
@@ -675,15 +640,87 @@ footer {
     font-size: 1rem;
 }
 
-.card-historico p {
+.card-historico p,
+.historico-vazio {
     margin: 0.3rem 0;
     color: var(--texto-fraco);
     font-size: 0.9rem;
     line-height: 1.5;
 }
 
-.historico-vazio {
-    margin: 0;
+footer {
+    min-height: 60px;
+    border-top: 1px solid rgba(121, 154, 196, 0.16);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     color: var(--texto-fraco);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    background: rgba(5, 11, 22, 0.64);
+}
+
+.status-esq,
+.status-dir {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.status-esq span:first-child {
+    color: var(--verde);
+}
+
+@media (max-width: 1100px) {
+    header {
+        height: auto;
+        padding: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    main {
+        padding: 1rem;
+    }
+
+    .chat-header-topo,
+    .chat-input,
+    .modo-ia-box,
+    footer {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mini-contexto,
+    .acoes {
+        grid-template-columns: 1fr;
+    }
+
+    .cypher-status-card {
+        width: 100%;
+    }
+
+    .chat-msg p {
+        max-width: 92%;
+    }
+
+    .btn-enviar {
+        min-height: 46px;
+    }
 }

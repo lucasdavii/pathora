@@ -3,110 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathora - Cypher AI</title>
-    <link rel="stylesheet" href="/css/ai.css"> <!--conecta o css da pagina da ia, separado do lp.css pq é uma pagina diferente-->
+    <title>Pathora - Cypher IA</title>
+    <link rel="stylesheet" href="/css/ai.css">
 </head>
 <body>
-    <header> <!--barra de navegação do dashboard da ia — diferente da landing page, os links aqui levam para funcionalidades do sistema-->
-        <div class="logo"> <!--agrupa a imagem e o texto "Pathora" lado a lado-->
-            <img src="/imgs/logo.png" alt="logo pathora">
+    <!-- Header da plataforma: mantém navegação, status do sistema e botão de saída. -->
+    <header>
+        <div class="logo">
+            <img src="/imgs/logo.png" alt="logo Pathora">
             <span>Pathora</span>
         </div>
-        <nav class="nav-links"> <!--links de navegação do sistema — análise, histórico, alertas e configurações-->
+
+        <nav class="nav-links">
             <a href="#">Análise</a>
             <a href="#">Histórico</a>
-            <a href="#">Alertas</a>
+            <a href="/html/mapa-risco.html">Mapa</a>
             <a href="#">Configurações</a>
         </nav>
-        <span class="status"><span class="online">●</span> Sistema Online</span> <!--badge que mostra se o servidor da ia ta rodando ou não-->
-        <button class="btn-sair" onclick="window.location.href='/html/index.html'">Sair</button> <!--botão pra o usuario sair do sistema e voltar pra landing page--> <!--botão pra o usuario sair do sistema-->
+
+        <span class="status"><span class="online">●</span> Sistema online</span>
+        <button class="btn-sair" onclick="window.location.href='/html/index.html'">Sair</button>
     </header>
-    <main> <!--conteudo principal da pagina — diferente da landing page que tinha varias sections, aqui tem um conteudo unico dividido em dois paineis-->
-        <div class="painel-chat"> <!--painel esquerdo — onde o usuario conversa com a ia-->
-            <div class="chat-header"> <!--cabecalho do chat com nome da ia e status-->
-                <h1>Cypher IA</h1>
-                <h2>Análise Epidemiológica Inteligente</h2>
-                <span>● Ao vivo</span> <!--indica que a ia ta conectada e respondendo em tempo real-->
 
-                <div class="modo-ia-box"> <!--area onde o usuario escolhe qual motor de ia vai responder no chat-->
-                    <label for="modo-ia">Modo da IA</label> <!--label que identifica o select que troca entre ollama, gemini e groq-->
-                    <select id="modo-ia"> <!--select cria uma caixa de escolha para o usuario escolher qual ia vai responder-->
-                        <option value="ollama">Ollama Local</option> <!--usa o ollama rodando no notebook, funciona localmente mas pode ser mais lento-->
-                        <option value="gemini">Gemini API</option> <!--usa a api do gemini, depende da internet e costuma responder mais rapido-->
-                        <option value="groq">Groq API</option> <!--usa a api da groq, focada em resposta rapida-->
+    <!-- Conteúdo principal da Cypher: central de análise + painel de risco. -->
+    <main>
+        <!-- Painel esquerdo: conversa com a Cypher e resumo operacional da análise. -->
+        <section class="painel-chat">
+            <div class="chat-header">
+                <div class="chat-header-topo">
+                    <div>
+                        <span class="tag-sistema">CYPHER // CENTRAL DE ANÁLISE</span>
+                        <h1>Cypher IA</h1>
+                        <h2>Interpretação epidemiológica para população e agentes de saúde.</h2>
+                    </div>
+
+                    <div class="cypher-status-card">
+                        <i data-lucide="radar"></i>
+                        <div>
+                            <strong>Ao vivo</strong>
+                            <span>Tianguá-CE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mini-contexto">
+                    <div>
+                        <i data-lucide="thermometer"></i>
+                        <span>Temperatura</span>
+                        <strong>29°C</strong>
+                    </div>
+                    <div>
+                        <i data-lucide="droplet"></i>
+                        <span>Umidade</span>
+                        <strong>87%</strong>
+                    </div>
+                    <div>
+                        <i data-lucide="cloud-rain"></i>
+                        <span>Chuva</span>
+                        <strong>Recente</strong>
+                    </div>
+                </div>
+
+                <div class="modo-ia-box">
+                    <label for="modo-ia">Motor da resposta</label>
+                    <select id="modo-ia">
+                        <option value="ollama">Cypher Local</option>
+                        <option value="gemini">Cypher Gemini</option>
+                        <option value="groq">Cypher Rápida</option>
                     </select>
                 </div>
-                
             </div>
-            <div class="chat-msg"> <!--area onde as mensagens do usuario e da ia vao aparecer-->
-                <p>Cypher: Sistema inicializado. Olá, sou a Cypher, sua assistente de vigilância epidemiológica. Como posso ajudar?</p>
-                <!--essa e a mensagem inicial da ia — quando o js estiver pronto, novas mensagens vao aparecer aqui dinamicamente-->
+
+            <div class="chat-msg">
+                <p>Cypher: sistema inicializado. Envie uma pergunta ou calcule o risco com os dados climáticos.</p>
             </div>
-            <div class="chat-input"> <!--area onde o usuario digita e envia a mensagem-->
+
+            <div class="chat-input">
                 <input type="text" placeholder="Digite sua análise ou pergunta...">
-                <!--input e um campo onde o usuario digita. type="text" significa que aceita texto normal.
-                    placeholder e o texto cinza que aparece antes do usuario digitar — some quando ele começa a escrever-->
-                <button class="btn-enviar">Enviar</button> <!--botão que o usuario clica para enviar a mensagem para a ia-->
+                <button class="btn-enviar">
+                    <i data-lucide="send"></i>
+                    Enviar
+                </button>
             </div>
-        </div>
-        <div class="painel-dashboard"> <!--painel direito — mostra os dados de risco em tempo real-->
-            <div class="risco-geral"> <!--card que mostra o nivel de risco geral da regiao-->
-                <h2>Nível de Risco</h2>
-                <p class="valor-risco">ALTO</p> <!--esse valor vai ser atualizado pelo js quando a ia calcular o risco-->
+        </section>
+
+        <!-- Painel direito: dados climáticos, cálculo de risco, histórico e ações rápidas. -->
+        <aside class="painel-dashboard">
+            <div class="risco-geral risco-alto">
+                <div class="card-topo">
+                    <h2>Nível de risco</h2>
+                    <span>atual</span>
+                </div>
+                <p class="valor-risco">ALTO</p>
                 <h3>Dengue · Tianguá-CE</h3>
+                <div class="risco-detalhes">
+                    <span>umidade alta</span>
+                    <span>chuva recente</span>
+                    <span>48h</span>
+                </div>
             </div>
-            <div class="formulario-risco"> <!--formulario onde o usuario coloca os dados climaticos para a Cypher calcular o risco-->
-                <h2>Calcular risco</h2> <!--titulo do formulario de risco-->
-                <div class="campo-risco"> <!--campo da temperatura-->
-                    <label for="temperatura">Temperatura</label> <!--label que identifica o input de temperatura-->
-                    <input type="number" id="temperatura" placeholder="Ex: 30"> <!--input numerico onde o usuario digita a temperatura-->
+
+            <div class="formulario-risco modulo-box">
+                <div class="box-titulo">
+                    <i data-lucide="activity"></i>
+                    <h2>Calcular risco</h2>
                 </div>
-                <div class="campo-risco"> <!--campo da umidade-->
-                    <label for="umidade">Umidade</label> <!--label que identifica o input de umidade-->
-                    <input type="number" id="umidade" placeholder="Ex: 80"> <!--input numerico onde o usuario digita a umidade-->
+
+                <div class="campo-risco">
+                    <label for="temperatura">Temperatura</label>
+                    <input type="number" id="temperatura" placeholder="Ex: 30">
                 </div>
-                <div class="campo-risco"> <!--campo da chuva-->
-                    <label for="chuva">Choveu recentemente?</label> <!--label que identifica a escolha de chuva-->
-                    <select id="chuva"> <!--select cria uma caixa de escolha, onde o usuario escolhe sim ou nao-->
-                        <option value="true">Sim</option> <!--se escolher sim, o js vai mandar true para o python-->
-                        <option value="false">Não</option> <!--se escolher nao, o js vai mandar false para o python-->
+
+                <div class="campo-risco">
+                    <label for="umidade">Umidade</label>
+                    <input type="number" id="umidade" placeholder="Ex: 80">
+                </div>
+
+                <div class="campo-risco">
+                    <label for="chuva">Choveu recentemente?</label>
+                    <select id="chuva">
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
                     </select>
                 </div>
-                <button class="btn-calcular-risco">Calcular risco</button> <!--botao que o usuario clica para enviar os dados climaticos para a Cypher-->
+
+                <button class="btn-calcular-risco">Calcular risco</button>
             </div>
 
-            <div class="historico-analises"> <!--card onde aparecem as analises antigas salvas no firebase-->
-                <h2>Histórico de análises</h2> <!--titulo do historico-->
-                <div class="lista-historico"> <!--essa div vai ser preenchida pelo javascript com os dados do firestore-->
-                    <p class="historico-vazio">Nenhuma análise salva ainda.</p> <!--mensagem padrão antes de carregar as analises-->
+            <div class="historico-analises modulo-box">
+                <div class="box-titulo">
+                    <i data-lucide="clock-3"></i>
+                    <h2>Histórico de análises</h2>
+                </div>
+                <div class="lista-historico">
+                    <p class="historico-vazio">Nenhuma análise salva ainda.</p>
                 </div>
             </div>
 
-            <div class="grafico"> <!--card que mostra o risco separado por doença-->
-                <h2>Risco por Doença</h2>
-                <span>Dengue</span>       <!--cada span e uma doença monitorada-->
+            <div class="grafico modulo-box">
+                <div class="box-titulo">
+                    <i data-lucide="shield-alert"></i>
+                    <h2>Doenças monitoradas</h2>
+                </div>
+                <span>Dengue</span>
                 <span>Chikungunya</span>
                 <span>Zika</span>
                 <span>Leptospirose</span>
             </div>
-            <div class="acoes"> <!--botoes de acao rapida para o gestor de saude-->
-                <button class="emitir-alerta">▲ Emitir Alerta</button> <!--emite um alerta de risco para a regiao-->
-                <button class="ver-mapa">↗ Ver Mapa de Risco</button>  <!--abre o mapa com as areas de risco-->
+
+            <div class="acoes">
+                <button class="emitir-alerta">
+                    <i data-lucide="siren"></i>
+                    Emitir alerta
+                </button>
+                <button class="ver-mapa" onclick="window.location.href='/html/mapa-risco.html'">
+                    <i data-lucide="map-pin"></i>
+                    Ver mapa
+                </button>
             </div>
-        </div>
+        </aside>
     </main>
-    <footer> <!--barra de status no rodape — mostra informacoes tecnicas do sistema-->
-        <div class="status-esq"> <!--lado esquerdo com informacoes do sistema-->
-            <span>● sistema operacional</span>      <!--indica que o sistema ta rodando-->
-            <span>modelo: cypher-1.0kz</span>   <!--versao do modelo da ia-->
-            <span>8 doenças monitoradas</span>      <!--quantidade de doenças que a ia monitora-->
-            <span>fontes: INPE · NASA · SINAN</span><!--fontes de dados que a ia usa-->
+
+    <!-- Rodapé técnico: informações de status e fontes usadas no protótipo. -->
+    <footer>
+        <div class="status-esq">
+            <span>● sistema operacional</span>
+            <span>modelo: cypher-1.0kz</span>
+            <span>8 doenças monitoradas</span>
+            <span>fontes: INPE · NASA · SINAN</span>
         </div>
-        <div class="status-dir"> <!--lado direito com localização e versao-->
-            <span>Tianguá-CE</span> <!--localizacao atual monitorada-->
-            <span>v1.0</span>       <!--versao do sistema-->
+        <div class="status-dir">
+            <span>Tianguá-CE</span>
+            <span>v1.0</span>
         </div>
     </footer>
+
+    <!-- Lucide Icons: gera os ícones SVG usados na interface da Cypher. -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
     <script type="module" src="/javascript/script_ia.js"></script>
 </body>
 </html>

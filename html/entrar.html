@@ -7,50 +7,58 @@
     <link rel="stylesheet" href="/css/entrar.css">
 </head>
 <body>
+    <!-- Página de login dividida em apresentação à esquerda e autenticação à direita. -->
     <main class="entrar">
+        <!-- Lado esquerdo: explica os principais recursos para quem já tem conta. -->
         <section class="entrar-esquerda">
-            <!-- Logo do Pathora -->
             <div class="logo">
                 <img src="/imgs/logo.png" alt="logo Pathora">
                 <span>Pathora</span>
             </div>
 
-            <!-- Conteúdo principal da parte esquerda -->
             <div class="entrar-conteudo">
                 <span class="badge-entrar">Acesso seguro</span>
-                <h1>Entre na plataforma <span>Pathora.</span></h1>
-                <p>Acesse seus painéis, acompanhe alertas, mapas de risco e monitoramento em tempo real para proteger sua região de surtos e epidemias.</p>
+                <h1>Entre na central <span>Pathora.</span></h1>
+                <p>Acesse a Cypher, acompanhe alertas, veja o mapa de risco e monitore sua região com dados climáticos.</p>
 
-                <!-- Cards informativos -->
                 <div class="cards-entrar">
                     <div class="card-entrar">
-                        <h2>Mapa de risco interativo</h2>
-                        <p>Visualize o risco por região em tempo real com dados atualizados.</p>
+                        <div class="icone-card"><i data-lucide="map-pin"></i></div>
+                        <div>
+                            <h2>Mapa de risco</h2>
+                            <p>Visualize o risco por região em tempo real.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-entrar alerta">
+                        <div class="icone-card"><i data-lucide="siren"></i></div>
+                        <div>
+                            <h2>Central de alertas</h2>
+                            <p>Eventos críticos e tendências de risco.</p>
+                        </div>
                     </div>
 
                     <div class="card-entrar">
-                        <h2>Central de alertas</h2>
-                        <p>Receba notificações sobre eventos críticos e tendências de risco.</p>
-                    </div>
-
-                    <div class="card-entrar">
-                        <h2>Conformidade com a LGPD</h2>
-                        <p>Seus dados protegidos com segurança, privacidade e transparência.</p>
+                        <div class="icone-card"><i data-lucide="shield-check"></i></div>
+                        <div>
+                            <h2>LGPD</h2>
+                            <p>Dados tratados com segurança e transparência.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Lado direito: formulário de login conectado ao Firebase pelo entrar.js. -->
         <section class="entrar-direita">
-            <!-- Caixa principal do login -->
             <div class="caixa-entrar">
-                <!-- Título do formulário -->
                 <div class="titulo-entrar">
+                    <span class="form-tag">retornar</span>
                     <h1>Entrar</h1>
                     <p>Acesse sua conta para continuar.</p>
                 </div>
 
-                <!-- Formulário de login -->
+                <!-- Formulário: mantém os ids email e senha usados no JavaScript. -->
                 <form class="formulario-entrar">
                     <div class="campo">
                         <label for="email">E-mail</label>
@@ -78,24 +86,15 @@
 
                     <button type="submit" class="btn-entrar-principal">Entrar</button>
 
-                    <button type="button" class="btn-criar-conta" onclick="window.location.href='/html/cadastro.html'">
-                        Ainda não tenho conta
-                    </button>
+                    <button type="button" class="btn-criar-conta" onclick="window.location.href='/html/cadastro.html'">Ainda não tenho conta</button>
 
-                    <div class="divisor">
-                        <span>ou</span>
-                    </div>
+                    <div class="divisor"><span>ou</span></div>
 
-                    <button type="button" class="btn-google">
-                        Continuar com Google
-                    </button>
+                    <button type="button" class="btn-google">Continuar com Google</button>
 
-                    <p class="termos-entrar">
-                        Ao continuar, você concorda com nossos <a href="#">termos</a>.
-                    </p>
+                    <p class="termos-entrar">Ao continuar, você concorda com nossos <a href="#">termos</a>.</p>
                 </form>
 
-                <!-- Rodapé da parte direita -->
                 <div class="rodape-entrar">
                     <p>© 2026 Pathora. Todos os direitos reservados.</p>
                     <div class="links-rodape">
@@ -107,6 +106,12 @@
             </div>
         </section>
     </main>
+
+    <!-- Lucide Icons: ícones dos cards de recurso e status. -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
     <script type="module" src="/javascript/entrar.js"></script>
 </body>
 </html>
