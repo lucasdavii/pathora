@@ -1,18 +1,21 @@
-//mapa interativo com leaflet
+// Pathora - mapa de risco epidemiológico
+// Mapa interativo com Leaflet, marcadores customizados, popup no estilo do sistema e filtros de risco.
 
+// Cria o mapa centralizado no Ceará.
+const mapa = L.map("mapa", {
+    zoomControl: true,
+    attributionControl: true
+}).setView([-5.178, -40.667], 7);
 
-// os numeros [-5.178, -40.667] são latitude e longitude aproximadas de Tianguá-CE
-const mapa = L.map("mapa").setView([-5.178, -40.667], 7);
-
-
-// adiciona o fundo do mapa.
-// openStreetMap dá os tiles q o leaftlet usa.
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap contributors"
+// Camada escura do mapa, mais compatível com o visual do Pathora.
+L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: "abcd",
+    maxZoom: 20
 }).addTo(mapa);
 
-// é só a lista inicial de cidades monitoradas
-// dps isso pode vir de uma API ou banco de dados
+// Lista inicial de regiões monitoradas.
+// Depois isso pode vir do Firebase, API climática ou backend.
 const regioes = [
     {
         nome: "Tianguá - CE",
@@ -20,7 +23,9 @@ const regioes = [
         longitude: -40.9920,
         temperatura: 31,
         umidade: 82,
-        chuva: true
+        chuva: true,
+        doenca: "Dengue",
+        leitura: "Hoje · 01:20"
     },
     {
         nome: "Sobral - CE",
@@ -28,7 +33,9 @@ const regioes = [
         longitude: -40.3482,
         temperatura: 34,
         umidade: 87,
-        chuva: true
+        chuva: true,
+        doenca: "Dengue",
+        leitura: "Hoje · 01:20"
     },
     {
         nome: "Fortaleza - CE",
@@ -36,7 +43,9 @@ const regioes = [
         longitude: -38.5267,
         temperatura: 29,
         umidade: 76,
-        chuva: false
+        chuva: false,
+        doenca: "Chikungunya",
+        leitura: "Hoje · 01:20"
     },
     {
         nome: "Juazeiro do Norte - CE",
@@ -44,45 +53,65 @@ const regioes = [
         longitude: -39.3150,
         temperatura: 28,
         umidade: 62,
-        chuva: false
-    }
+        chuva: false,
+        doenca: "Zika",
+        leitura: "Hoje · 01:20"
+    },
+    {
+    nome: "Viçosa do Ceará - CE",
+    latitude: -3.5621,
+    longitude: -41.0922,
+    temperatura: 24,
+    umidade: 48,
+    chuva: false,
+    doenca: "Dengue",
+    leitura: "Hoje · 01:20"
+},
 ];
 
+let marcadores = [];
 
-// calcula o risco com base nos mesmos critérios da Cypher
-// alto: muito quente + muita umidade
-// medio: quente + umidade alta
-// baixo: condições menos favoráveis
+// Calcula risco com lógica parecida com a Cypher.
 function calcularRisco(temperatura, umidade, chuva) {
-    if (temperatura > 32 && umidade > 85 && chuva === true) {
-        return "alto";
-    } else if (temperatura > 32 && umidade > 85 && chuva === false) {
-        return "alto";
-    } else if (temperatura > 28 && umidade > 70 && chuva === true) {
-        return "medio";
-    } else if (temperatura > 28 && umidade > 70 && chuva === false) {
-        return "medio";
-    } else {
-        return "baixo";
+    let pontos = 0;
+
+    if (temperatura >= 26 && temperatura <= 32) {
+        pontos++;
     }
+
+    if (umidade >= 60) {
+        pontos++;
+    }
+
+    if (chuva === true) {
+        pontos++;
+    }
+
+    if (pontos === 3) {
+        return "alto";
+    }
+
+    if (pontos === 2) {
+        return "medio";
+    }
+
+    return "baixo";
 }
 
-
-// define a cor de cada risco.
+// Cor de cada risco no padrão Pathora.
 function corDoRisco(risco) {
     if (risco === "alto") {
         return "#ef4444";
     }
 
     if (risco === "medio") {
-        return "#facc15";
+        return "#f59e0b";
     }
 
-    return "#4f9ecf";
+    return "#38bdf8";
 }
 
-
-// transforma o texto para aparecer bonito no popup.
+// Nome bonito para aparecer na tela.
 function nomeDoRisco(risco) {
     if (risco === "alto") {
         return "Alto risco";
@@ -95,43 +124,165 @@ function nomeDoRisco(risco) {
     return "Baixo risco";
 }
 
+// Texto de motivo para o popup.
+function motivoDoRisco(regiao, risco) {
+    if (risco === "alto") {
+        return "Umidade elevada, chuva recente e condições favoráveis ao avanço do vetor.";
+    }
 
-// cria um círculo no mapa para cada região.
-regioes.forEach((regiao) => {
-    const risco = calcularRisco(regiao.temperatura, regiao.umidade, regiao.chuva);
+    if (risco === "medio") {
+        return "Condições ambientais favoráveis. A região merece atenção preventiva.";
+    }
+
+    return "Condições atuais sem sinal crítico, mas o monitoramento deve continuar.";
+}
+
+// Ação sugerida para o popup.
+function acaoSugerida(risco) {
+    if (risco === "alto") {
+        return "Verificar focos de água parada e reforçar alerta preventivo.";
+    }
+
+    if (risco === "medio") {
+        return "Manter vistoria preventiva e acompanhar clima nos próximos dias.";
+    }
+
+    return "Continuar monitoramento e ações básicas de prevenção.";
+}
+
+// Cria marcador visual com glow, ponto interno e pulso no risco alto.
+function criarIconeRisco(risco) {
     const cor = corDoRisco(risco);
 
-    L.circleMarker([regiao.latitude, regiao.longitude], {
-        radius: 14,
-        color: cor,
-        fillColor: cor,
-        fillOpacity: 0.45,
-        weight: 2
-    })
-    .addTo(mapa)
-    .bindPopup(`
+    return L.divIcon({
+        className: "",
+        html: `
+            <div class="marcador-risco marcador-${risco}" style="--cor-risco: ${cor}">
+                <span></span>
+            </div>
+        `,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17],
+        popupAnchor: [0, -18]
+    });
+}
+
+// Cria o HTML do popup.
+function criarPopup(regiao, risco) {
+    return `
         <div class="popup-risco popup-${risco}">
-            <div class="popup-topo">
-                <span class="popup-tag">${nomeDoRisco(risco)}</span>
-                <strong>${regiao.nome}</strong>
+            <div class="popup-header">
+                <div>
+                    <span class="popup-label">${nomeDoRisco(risco)}</span>
+                    <h3>${regiao.nome}</h3>
+                </div>
+                <strong class="popup-doenca">${regiao.doenca}</strong>
             </div>
 
-            <div class="popup-dados">
+            <div class="popup-grid">
                 <div>
                     <span>Temperatura</span>
                     <strong>${regiao.temperatura}°C</strong>
                 </div>
+
                 <div>
                     <span>Umidade</span>
                     <strong>${regiao.umidade}%</strong>
                 </div>
+
                 <div>
-                    <span>Chuva recente</span>
-                    <strong>${regiao.chuva ? "Sim" : "Não"}</strong>
+                    <span>Chuva</span>
+                    <strong>${regiao.chuva ? "Recente" : "Não recente"}</strong>
                 </div>
             </div>
 
-            <p class="popup-observacao">Classificação calculada pela combinação de temperatura, umidade e chuva recente.</p>
+            <div class="popup-bloco">
+                <span>Motivo</span>
+                <p>${motivoDoRisco(regiao, risco)}</p>
+            </div>
+
+            <div class="popup-bloco">
+                <span>Ação sugerida</span>
+                <p>${acaoSugerida(risco)}</p>
+            </div>
+
+            <div class="popup-footer">
+                <span>Última leitura</span>
+                <strong>${regiao.leitura}</strong>
+            </div>
         </div>
-    `);
-});
+    `;
+}
+
+// Renderiza regiões no mapa.
+function renderizarRegioes(filtro = "todos") {
+    marcadores.forEach(function(marcador) {
+        mapa.removeLayer(marcador);
+    });
+
+    marcadores = [];
+
+    regioes.forEach(function(regiao) {
+        const risco = calcularRisco(regiao.temperatura, regiao.umidade, regiao.chuva);
+
+        if (filtro !== "todos" && risco !== filtro) {
+            return;
+        }
+
+        const marcador = L.marker([regiao.latitude, regiao.longitude], {
+            icon: criarIconeRisco(risco)
+        })
+        .addTo(mapa)
+        .bindPopup(criarPopup(regiao, risco), {
+            className: "popup-pathora",
+            closeButton: true,
+            maxWidth: 340
+        });
+
+        marcadores.push(marcador);
+    });
+}
+
+// Faz os botões Baixo, Médio e Alto filtrarem o mapa.
+// Se clicar no botão ativo, volta para todos.
+function configurarFiltros() {
+    const botoes = document.querySelectorAll(".baixo-overlay button");
+
+    botoes.forEach(function(botao) {
+        botao.addEventListener("click", function() {
+            const texto = botao.textContent.trim().toLowerCase();
+
+            let filtro = "todos";
+
+            if (texto.includes("baixo")) {
+                filtro = "baixo";
+            }
+
+            if (texto.includes("médio") || texto.includes("medio")) {
+                filtro = "medio";
+            }
+
+            if (texto.includes("alto")) {
+                filtro = "alto";
+            }
+
+            const jaAtivo = botao.classList.contains("ativo");
+
+            botoes.forEach(function(item) {
+                item.classList.remove("ativo");
+            });
+
+            if (jaAtivo) {
+                renderizarRegioes("todos");
+                return;
+            }
+
+            botao.classList.add("ativo");
+            renderizarRegioes(filtro);
+        });
+    });
+}
+
+// Inicialização.
+renderizarRegioes("todos");
+configurarFiltros();

@@ -512,3 +512,264 @@ body::before {
         min-height: 560px;
     }
 }
+/* Melhorias do mapa Pathora */
+
+.mapa-container {
+    position: relative;
+    overflow: hidden;
+}
+
+#mapa {
+    background: #040916;
+}
+
+/* Remove visual branco padrão do Leaflet */
+.leaflet-container {
+    background: #040916;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.leaflet-control-zoom {
+    border: 1px solid rgba(121, 154, 196, 0.22) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+.leaflet-control-zoom a {
+    background: rgba(13, 27, 47, 0.94) !important;
+    color: #f8fafc !important;
+    border-bottom: 1px solid rgba(121, 154, 196, 0.16) !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: rgba(20, 214, 194, 0.14) !important;
+    color: #14d6c2 !important;
+}
+
+/* Marcadores customizados */
+.marcador-risco {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    position: relative;
+    display: grid;
+    place-items: center;
+    background: rgba(4, 9, 22, 0.78);
+    border: 2px solid var(--cor-risco);
+    box-shadow:
+        0 0 0 6px color-mix(in srgb, var(--cor-risco) 16%, transparent),
+        0 0 28px color-mix(in srgb, var(--cor-risco) 45%, transparent),
+        0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.marcador-risco span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--cor-risco);
+    box-shadow: 0 0 18px var(--cor-risco);
+}
+
+.marcador-alto::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(239, 68, 68, 0.55);
+    animation: pulsoRisco 1.6s infinite;
+}
+
+@keyframes pulsoRisco {
+    0% {
+        transform: scale(0.72);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+/* Popup do Pathora */
+.leaflet-popup-content-wrapper {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    width: 330px !important;
+}
+
+.leaflet-popup-tip {
+    background: #0d1b2f !important;
+    border: 1px solid rgba(121, 154, 196, 0.18);
+}
+
+.popup-risco {
+    background:
+        radial-gradient(circle at top right, rgba(20, 214, 194, 0.12), transparent 38%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.98), rgba(5, 12, 24, 0.98));
+    border: 1px solid rgba(121, 154, 196, 0.22);
+    border-radius: 20px;
+    padding: 18px;
+    color: #f8fafc;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+
+.popup-alto {
+    border-color: rgba(239, 68, 68, 0.35);
+    background:
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.16), transparent 38%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.98), rgba(5, 12, 24, 0.98));
+}
+
+.popup-medio {
+    border-color: rgba(245, 158, 11, 0.35);
+    background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.15), transparent 38%),
+        linear-gradient(145deg, rgba(13, 27, 47, 0.98), rgba(5, 12, 24, 0.98));
+}
+
+.popup-baixo {
+    border-color: rgba(56, 189, 248, 0.34);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.popup-label {
+    display: inline-flex;
+    color: #14d6c2;
+    background: rgba(20, 214, 194, 0.08);
+    border: 1px solid rgba(20, 214, 194, 0.22);
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.popup-alto .popup-label {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.09);
+    border-color: rgba(239, 68, 68, 0.24);
+}
+
+.popup-medio .popup-label {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.09);
+    border-color: rgba(245, 158, 11, 0.24);
+}
+
+.popup-header h3 {
+    margin: 0;
+    color: #f8fafc;
+    font-size: 18px;
+}
+
+.popup-doenca {
+    color: #d7dee9;
+    font-size: 12px;
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    white-space: nowrap;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.popup-grid div {
+    padding: 10px;
+    border-radius: 14px;
+    background: rgba(4, 9, 22, 0.68);
+    border: 1px solid rgba(121, 154, 196, 0.14);
+}
+
+.popup-grid span,
+.popup-bloco span,
+.popup-footer span {
+    display: block;
+    color: #9aa8bd;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.popup-grid strong {
+    color: #f8fafc;
+    font-size: 14px;
+}
+
+.popup-bloco {
+    padding: 11px 0;
+    border-top: 1px solid rgba(121, 154, 196, 0.13);
+}
+
+.popup-bloco p {
+    margin: 0;
+    color: #d7dee9;
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.popup-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(121, 154, 196, 0.13);
+}
+
+.popup-footer strong {
+    color: #14d6c2;
+    font-size: 12px;
+}
+
+/* Overlays do mapa */
+.mapa-overlay.topo {
+    background: rgba(7, 16, 31, 0.86);
+    border: 1px solid rgba(121, 154, 196, 0.22);
+    backdrop-filter: blur(16px);
+}
+
+.mapa-overlay.topo span {
+    color: #9aa8bd;
+}
+
+.mapa-overlay.topo strong {
+    color: #f8fafc;
+}
+
+.baixo-overlay {
+    background: rgba(7, 16, 31, 0.86);
+    border: 1px solid rgba(121, 154, 196, 0.22);
+    backdrop-filter: blur(16px);
+}
+
+.baixo-overlay button {
+    border: none;
+    color: #9aa8bd;
+    background: transparent;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.baixo-overlay button.ativo {
+    color: #06101e;
+    background: #14d6c2;
+    border-radius: 12px;
+}

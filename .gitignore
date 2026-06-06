@@ -12,5 +12,3 @@ __pycache__/
 # Ambiente virtual, se criar depois
 venv/
 .venv/
-
-firebase.js

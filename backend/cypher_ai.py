@@ -122,9 +122,8 @@ BASE DE CONHECIMENTO DO PATHORA:
 INSTRUCAO_CYPHER = carregar_instrucao_cypher()
 
 
-# ============================================================
+
 # 3. FUNÇÕES AUXILIARES
-# ============================================================
 
 def texto_limpo(valor: Any) -> str:
     """Transforma qualquer valor em texto limpo."""
@@ -216,9 +215,9 @@ def montar_mensagens_chat(historico: List[Dict[str, str]]) -> List[Dict[str, str
     return mensagens
 
 
-# ============================================================
+
 # 4. CÁLCULO DE RISCO EPIDEMIOLÓGICO
-# ============================================================
+
 
 def calcular_risco_epidemiologico(temperatura: Any, umidade: Any, chuva: Any) -> Dict[str, Any]:
     """
@@ -295,9 +294,9 @@ def calcular_risco_epidemiologico(temperatura: Any, umidade: Any, chuva: Any) ->
     }
 
 
-# ============================================================
+
 # 5. CHAMADAS PARA OLLAMA, GROQ E GEMINI
-# ============================================================
+
 
 def perguntar_ollama(historico: List[Dict[str, str]]) -> str:
     """Envia a conversa para o Ollama local."""
@@ -605,10 +604,8 @@ def rota_calcular():
         "modo": modo
     })
 
-
-# ============================================================
 # 7. INICIAR SERVIDOR
-# ============================================================
+
 
 if __name__ == "__main__":
     print("Cypher IA rodando...")
