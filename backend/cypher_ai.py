@@ -25,7 +25,7 @@ GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip()
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
 
 # Tempo máximo esperando uma API responder.
-REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "30"))
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "60"))
 
 # Porta do Flask.
 PORT = int(os.getenv("PORT", "5000"))
